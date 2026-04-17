@@ -23,7 +23,8 @@
         "psr-4": {
             "App\\": "app/",
             "App\\Modules\\Actualites\\": "app/modules/actualites/",
-            "App\\Modules\\Partenaires\\": "app/modules/partenaires/"
+            "App\\Modules\\Partenaires\\": "app/modules/partenaires/",
+            "App\\Modules\\Equipe\\": "app/modules/equipe/"
         },
         "files": ["app/helpers.php"]
     },

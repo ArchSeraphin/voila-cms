@@ -1,0 +1,8 @@
+{
+  "name": "equipe",
+  "label": "Équipe",
+  "admin_path": "/admin/equipe",
+  "admin_icon": "users",
+  "front_path": "/equipe",
+  "has_detail": true
+}
