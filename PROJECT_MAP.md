@@ -55,10 +55,49 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 | Modifier le script déploiement | `deploy.sh` |
 | Build Tailwind prod | `npm run build` (via `build.sh`) |
 
+### SEO / méta
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Règles title/description auto | `app/Services/Seo.php` |
+| Types Schema.org | `app/Services/SchemaBuilder.php` |
+| Partial meta tags front | `templates/partials/seo-meta.html.twig` |
+| Partial JSON-LD front | `templates/partials/schema-jsonld.html.twig` |
+| Sitemap dynamique | `app/Controllers/SitemapController.php` |
+| Robots.txt | `public/robots.txt` |
+
+### Images
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Ajouter / modifier un preset | `config/images.php` |
+| Modifier le helper `{{ img() }}` | `app/Core/View.php` (méthode `renderImg`) |
+| Modifier la validation d'upload | `app/Services/ImageService.php` |
+| Modifier la signature des URLs | `app/Services/Glide.php` |
+| Changer le chemin cache Glide | `storage/cache/glide/` (géré par deploy.sh) |
+| Endpoint serveur images | `app/Controllers/Front/MediaController.php` |
+
+### Analytics & consentement RGPD
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Changer le fournisseur (GA4/Plausible/Matomo/GTM) | Table `settings`, clé `analytics_provider` (en attendant Settings admin UI, via MySQL direct) |
+| Modifier la bannière | `templates/partials/consent-banner.html.twig` |
+| Modifier le partial analytics | `templates/partials/analytics.html.twig` |
+| Modifier la page politique cookies | `templates/front/cookies-policy.html.twig` |
+| Logique consentement (catégories, cookie) | `app/Services/Consent.php` |
+
+### Settings (configuration applicative)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Lire/écrire une clé | `app/Services/Settings.php` |
+| Ajouter une clé par défaut | Nouvelle migration `database/migrations/0XX_seed_YYY.sql` |
+| Voir toutes les clés | Table `settings` en MySQL |
+
 ## Sections à compléter (plans futurs)
 
-- [Plan 02] Pipelines transverses : Glide, SEO, Sitemap, Analytics, Consent
-- [Plan 03] Système de modules + Actualités/Partenaires/Réalisations
+- [Plan 03] Système de modules + Actualités/Partenaires/Réalisations + Settings admin UI
 - [Plan 04] Modules Équipe, Témoignages, Services, FAQ, Documents
 - [Plan 05] Outillage brief & scaffolding
 
