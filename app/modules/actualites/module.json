@@ -1,0 +1,8 @@
+{
+  "name": "actualites",
+  "label": "Actualités",
+  "admin_path": "/admin/actualites",
+  "admin_icon": "news",
+  "front_path": "/actualites",
+  "has_detail": true
+}
