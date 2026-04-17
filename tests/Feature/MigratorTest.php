@@ -25,7 +25,7 @@ class MigratorTest extends TestCase
     {
         $m = new Migrator(DB::conn(), __DIR__ . '/../../database/migrations');
         $applied = $m->run();
-        $this->assertCount(17, $applied, "Should apply 17 migrations fresh");
+        $this->assertCount(18, $applied, "Should apply 18 migrations fresh");
         $this->assertContains('001_create_schema_migrations', $applied);
         $this->assertContains('009_create_actualites', $applied);
         $this->assertContains('010_create_partenaires', $applied);
@@ -36,6 +36,7 @@ class MigratorTest extends TestCase
         $this->assertContains('015_create_services', $applied);
         $this->assertContains('016_create_realisations', $applied);
         $this->assertContains('017_create_password_reset_tokens', $applied);
+        $this->assertContains('018_seed_default_pages_blocks', $applied);
 
         $applied2 = $m->run();
         $this->assertSame([], $applied2);

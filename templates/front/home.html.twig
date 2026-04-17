@@ -1,7 +1,11 @@
 {% extends 'layouts/base.html.twig' %}
 {% block content %}
 <section class="mx-auto max-w-6xl px-4 py-20 text-center">
-    <h1 class="font-display text-5xl font-bold mb-4">{{ app.name }}</h1>
-    <p class="text-slate-600 text-lg">Site en cours de construction avec voila-cms.</p>
+    <h1 class="font-display text-5xl font-bold mb-4">{{ page_block('home', 'hero_title', app.name) }}</h1>
+    <p class="text-slate-600 text-lg mb-6">{{ page_block('home', 'hero_subtitle', 'Site en construction') }}</p>
+    {% set intro = page_block('home', 'intro_paragraph', '') %}
+    {% if intro %}<p class="text-slate-700 max-w-2xl mx-auto leading-relaxed mb-6">{{ intro }}</p>{% endif %}
+    {% set cta = page_block('home', 'cta_label', '') %}
+    {% if cta %}<a href="/contact" class="inline-block rounded bg-primary px-6 py-3 text-white font-medium hover:bg-blue-700">{{ cta }}</a>{% endif %}
 </section>
 {% endblock %}

@@ -9,6 +9,12 @@ return function (Router $r): void {
     $home = new HomeController();
     $r->get('/', [$home, 'index']);
 
+    $about = new \App\Controllers\Front\AboutController();
+    $r->get('/a-propos', [$about, 'index']);
+
+    $legal = new \App\Controllers\Front\LegalController();
+    $r->get('/mentions-legales', [$legal, 'index']);
+
     $cookies = new CookiesController();
     $r->get('/politique-cookies', [$cookies, 'index']);
 

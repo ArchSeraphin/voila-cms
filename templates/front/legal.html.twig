@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<article class="mx-auto max-w-3xl px-4 py-16 prose prose-slate">
+    <h1>Mentions légales</h1>
+    <p><strong>Dernière mise à jour :</strong> {{ "now"|date("d/m/Y") }}</p>
+
+    <h2>Éditeur du site</h2>
+    <p><strong>{{ page_block('legal', 'editor_name', setting('site_name', '—')) }}</strong></p>
+    <div>{{ page_block('legal', 'editor_info', '')|nl2br }}</div>
+
+    <h2>Hébergement</h2>
+    <div>{{ page_block('legal', 'hosting_info', '')|nl2br }}</div>
+
+    <h2>Contact</h2>
+    <p>
+        {% if setting('contact_email') %}Email : {{ setting('contact_email') }}<br>{% endif %}
+        {% if setting('contact_phone') %}Téléphone : {{ setting('contact_phone') }}{% endif %}
+    </p>
+
+    <h2>Cookies</h2>
+    <p>Voir notre <a href="/politique-cookies">politique de cookies</a>.</p>
+</article>
+{% endblock %}

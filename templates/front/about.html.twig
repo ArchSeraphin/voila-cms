@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-3xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-8">{{ page_block('about', 'intro_title', 'À propos') }}</h1>
+    {% set intro = page_block('about', 'intro_text', '') %}
+    {% if intro %}<div class="prose prose-slate max-w-none mb-10">{{ intro|nl2br }}</div>{% endif %}
+    {% set values = page_block('about', 'values_block', '') %}
+    {% if values %}
+    <h2 class="font-display text-2xl font-semibold mb-4">Nos valeurs</h2>
+    <div class="prose prose-slate max-w-none">{{ values|nl2br }}</div>
+    {% endif %}
+</section>
+{% endblock %}
