@@ -15,12 +15,12 @@ final class Mailer
     /** @param array{transport:string,host?:string,port?:int,username?:string,password?:string,encryption?:string,from:array{address:string,name:string}} $cfg */
     public function __construct(private array $cfg)
     {
-        $from = $cfg['from'] ?? ['address' => '', 'name' => ''];
+        $from = $cfg['from'];
         if (empty($from['address'])) {
             throw new \RuntimeException("Mailer: MAIL_FROM_ADDRESS is required");
         }
         $this->fromAddress = (string)$from['address'];
-        $this->fromName    = (string)($from['name'] ?? '');
+        $this->fromName    = (string)$from['name'];
         $dsn = $this->buildDsn();
         $transport = Transport::fromDsn($dsn);
         $this->mailer = new SymfonyMailer($transport);
