@@ -3,6 +3,11 @@
         <a href="/" class="font-display text-xl font-semibold">{{ app.name }}</a>
         <nav class="space-x-6 text-sm">
             <a href="/" class="hover:text-primary">Accueil</a>
+            {% for m in admin_modules %}
+                {% if m.has_detail %}
+                <a href="{{ m.front_path }}" class="hover:text-primary">{{ m.label }}</a>
+                {% endif %}
+            {% endfor %}
         </nav>
     </div>
 </header>
