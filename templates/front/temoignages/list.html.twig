@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-10 text-center">Témoignages clients</h1>
+    {% if rows|length == 0 %}
+    <p class="text-slate-500 text-center">Aucun témoignage pour l'instant.</p>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {% for r in rows %}
+        <blockquote class="bg-white rounded-lg border border-slate-200 p-6">
+            {% if r.note %}<div class="text-yellow-500 mb-3">{% for i in 1..5 %}{% if i <= r.note %}★{% else %}☆{% endif %}{% endfor %}</div>{% endif %}
+            <p class="text-slate-700 leading-relaxed italic">« {{ r.citation }} »</p>
+            <footer class="mt-4 flex items-center gap-3">
+                {% if r.photo %}<img src="/{{ r.photo }}" alt="{{ r.auteur }}" class="w-10 h-10 rounded-full object-cover">{% endif %}
+                <div>
+                    <div class="font-medium">{{ r.auteur }}</div>
+                    {% if r.entreprise %}<div class="text-xs text-slate-500">{{ r.entreprise }}</div>{% endif %}
+                </div>
+            </footer>
+        </blockquote>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

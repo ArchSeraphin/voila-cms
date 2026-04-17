@@ -4,4 +4,5 @@ return [
     'actualites',
     'partenaires',
     'equipe',
+    'temoignages',
 ];

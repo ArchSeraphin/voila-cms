@@ -1,0 +1,8 @@
+{
+  "name": "temoignages",
+  "label": "Témoignages",
+  "admin_path": "/admin/temoignages",
+  "admin_icon": "quote",
+  "front_path": "/temoignages",
+  "has_detail": true
+}
