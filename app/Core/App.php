@@ -16,6 +16,12 @@ final class App
         $router = new Router();
         (require $basePath . '/config/routes.php')($router);
 
+        // Load modules and register their routes
+        $activeSlugs = require $basePath . '/config/modules.php';
+        $registry = new ModuleRegistry($basePath . '/app/modules', is_array($activeSlugs) ? $activeSlugs : []);
+        $registry->registerRoutes($router);
+        Container::set(ModuleRegistry::class, $registry);
+
         $view = new View(
             $basePath . '/templates',
             $basePath . '/storage/cache/twig',
@@ -23,8 +29,8 @@ final class App
         );
         $appCfg = require $basePath . '/config/app.php';
         $view->env()->addGlobal('app', $appCfg);
+        $view->env()->addGlobal('admin_modules', $registry->active());
 
-        // Make View globally available to controllers via container glue
         Container::set(View::class, $view);
 
         $middlewares = [
