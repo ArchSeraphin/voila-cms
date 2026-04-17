@@ -6,14 +6,16 @@
     <meta name="robots" content="noindex,nofollow">
     <title>{% block title %}Admin — {{ app.name }}{% endblock %}</title>
     <link rel="stylesheet" href="/assets/css/app.compiled.css">
+    {% block head %}{% endblock %}
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900">
     <div class="flex min-h-screen">
         {% include 'partials/admin-sidebar.html.twig' %}
-        <div class="flex-1 p-8">
-            {% include 'partials/flash.html.twig' %}
+        <div class="flex-1 p-6 md:p-8 min-w-0">
+            {% include 'partials/admin-flash.html.twig' %}
             {% block content %}{% endblock %}
         </div>
     </div>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
