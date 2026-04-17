@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>{% block title %}Admin — {{ app.name }}{% endblock %}</title>
+    <link rel="stylesheet" href="/assets/css/app.compiled.css">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="flex min-h-screen">
+        {% include 'partials/admin-sidebar.html.twig' %}
+        <div class="flex-1 p-8">
+            {% include 'partials/flash.html.twig' %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

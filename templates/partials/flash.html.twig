@@ -1,0 +1,4 @@
+{% set _flash_success = flash('success') %}
+{% set _flash_error = flash('error') %}
+{% if _flash_success %}<div class="mb-4 rounded bg-green-50 text-green-800 px-4 py-2">{{ _flash_success }}</div>{% endif %}
+{% if _flash_error %}<div class="mb-4 rounded bg-red-50 text-red-800 px-4 py-2">{{ _flash_error }}</div>{% endif %}
