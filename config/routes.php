@@ -33,5 +33,9 @@ return function (Router $r): void {
     $r->get('/admin/settings',  [$settings, 'show']);
     $r->post('/admin/settings', [$settings, 'save']);
 
+    $account = new \App\Controllers\Admin\AccountController();
+    $r->get('/admin/account',  [$account, 'show']);
+    $r->post('/admin/account', [$account, 'save']);
+
     $r->setFallback([$home, 'notFound']);
 };
