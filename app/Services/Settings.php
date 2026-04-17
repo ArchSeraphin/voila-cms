@@ -29,7 +29,8 @@ final class Settings
     public static function all(): array
     {
         if (self::$cache === null) {
-            $rows = DB::conn()->query("SELECT `key`, `value` FROM settings")?->fetchAll() ?: [];
+            $stmt = DB::conn()->query("SELECT `key`, `value` FROM settings");
+            $rows = $stmt !== false ? $stmt->fetchAll() : [];
             $cache = [];
             foreach ($rows as $r) $cache[(string)$r['key']] = (string)($r['value'] ?? '');
             self::$cache = $cache;

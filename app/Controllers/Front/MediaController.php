@@ -13,6 +13,7 @@ final class MediaController
         private string $cachePath,
     ) {}
 
+    /** @param array<string,string> $params */
     public function serve(Request $req, array $params): Response
     {
         $path = ltrim($params['path'] ?? '', '/');

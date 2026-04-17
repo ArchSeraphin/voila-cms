@@ -4,7 +4,18 @@ namespace App\Services;
 
 final class SchemaBuilder
 {
-    /** @param array{name:string,type?:string,url?:string,phone?:string,email?:string,address?:array,geo?:array,image?:string} $data */
+    /**
+     * @param array{
+     *     name:string,
+     *     type?:string,
+     *     url?:string,
+     *     phone?:string,
+     *     email?:string,
+     *     address?:array{street?:string,city?:string,postal?:string,country?:string},
+     *     geo?:array{lat?:float|string,lng?:float|string},
+     *     image?:string
+     * } $data
+     */
     public static function localBusiness(array $data): string
     {
         $out = [
@@ -111,6 +122,7 @@ final class SchemaBuilder
         ]);
     }
 
+    /** @param array<string,mixed> $data */
     private static function encode(array $data): string
     {
         return (string)json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

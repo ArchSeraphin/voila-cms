@@ -31,7 +31,11 @@ final class Glide
         return SignatureFactory::create($secret);
     }
 
-    /** Returns a signed URL like /media/2026/04/xyz.jpg?w=640&s=abc */
+    /**
+     * Returns a signed URL like /media/2026/04/xyz.jpg?w=640&s=abc
+     *
+     * @param array<string,scalar> $params
+     */
     public static function sign(string $path, array $params): string
     {
         $sig = self::signature();
