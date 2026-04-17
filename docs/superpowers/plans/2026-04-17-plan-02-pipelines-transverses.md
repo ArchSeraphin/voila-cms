@@ -78,7 +78,7 @@ Changes to existing files:
 Edit `composer.json`, add to the `require` section (keep existing deps):
 ```json
 "league/glide": "^2.3",
-"intervention/image": "^3.7",
+"intervention/image": "^2.7",
 "league/flysystem": "^3.0",
 "league/flysystem-local": "^3.0"
 ```
@@ -91,7 +91,7 @@ Final `require` block should look like:
     "ext-mbstring": "*",
     "ext-fileinfo": "*",
     "ext-gd": "*",
-    "intervention/image": "^3.7",
+    "intervention/image": "^2.7",
     "league/flysystem": "^3.0",
     "league/flysystem-local": "^3.0",
     "league/glide": "^2.3",
@@ -100,7 +100,7 @@ Final `require` block should look like:
 },
 ```
 
-Note `ext-gd` added — Intervention Image v3 needs GD (or Imagick). GD ships with most PHP builds.
+Note: Glide 2.x depends on Intervention Image 2.x (not 3.x — those are incompatible). `ext-gd` required by Intervention. GD ships with most PHP builds.
 
 - [ ] **Step 2: Install**
 
