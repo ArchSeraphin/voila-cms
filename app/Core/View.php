@@ -30,6 +30,10 @@ final class View
         $this->twig->addFunction(new TwigFunction('consent_has', fn(string $cat) => \App\Services\Consent::has($cat)));
         $this->twig->addFunction(new TwigFunction('consent_decided', fn() => \App\Services\Consent::decisionMade()));
         $this->twig->addFunction(new TwigFunction('setting', fn(string $key, string $default = '') => \App\Services\Settings::get($key, $default)));
+        $this->twig->addFunction(new TwigFunction(
+            'page_block',
+            fn(string $page, string $key, string $default = '') => \App\Services\PagesBlocks::get($page, $key, $default),
+        ));
     }
 
     /** @param array<string,mixed> $context */
