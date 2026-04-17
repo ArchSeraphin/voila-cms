@@ -16,6 +16,26 @@
             {% block content %}{% endblock %}
         </div>
     </div>
+    <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script>
+        if (document.querySelector('.js-tinymce')) {
+            tinymce.init({
+                selector: '.js-tinymce',
+                language: 'fr_FR',
+                menubar: false,
+                branding: false,
+                promotion: false,
+                plugins: 'link lists autolink code',
+                toolbar: 'undo redo | bold italic underline | bullist numlist | link | code',
+                height: 400,
+                content_css: '/assets/css/app.compiled.css',
+                convert_urls: false,
+                statusbar: false,
+                skin_url: '/assets/vendor/tinymce/skins/ui/oxide',
+                content_skin_url: '/assets/vendor/tinymce/skins/content/default',
+            });
+        }
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
