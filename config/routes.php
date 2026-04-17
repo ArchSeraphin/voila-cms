@@ -17,7 +17,7 @@ return function (Router $r): void {
 
     $contact = new \App\Controllers\Front\ContactController();
     $r->get('/contact',  [$contact, 'show']);
-    // POST added in P05-08
+    $r->post('/contact', [$contact, 'submit']);
 
     $cookies = new CookiesController();
     $r->get('/politique-cookies', [$cookies, 'index']);

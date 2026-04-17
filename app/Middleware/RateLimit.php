@@ -9,7 +9,8 @@ final class RateLimit
 {
     public function handle(Request $req, callable $next): Response
     {
-        if ($req->method === 'POST' && $req->path === '/admin/login') {
+        $rateLimitedPaths = ['/admin/login', '/contact'];
+        if ($req->method === 'POST' && in_array($req->path, $rateLimitedPaths, true)) {
             $rl = new RateLimiter(
                 DB::conn(),
                 Config::int('RATE_LIMIT_LOGIN_ATTEMPTS', 5),

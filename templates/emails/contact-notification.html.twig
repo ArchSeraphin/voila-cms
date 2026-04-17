@@ -1,0 +1,10 @@
+<!doctype html>
+<html><body style="font-family: Arial, sans-serif; color: #1e293b;">
+<h2>Nouveau message de contact — {{ site_name }}</h2>
+<p><strong>Expéditeur :</strong> {{ nom }} &lt;{{ email }}&gt;</p>
+{% if sujet %}<p><strong>Sujet :</strong> {{ sujet }}</p>{% endif %}
+<hr>
+<pre style="white-space:pre-wrap; font-family: inherit;">{{ message }}</pre>
+<hr>
+<p style="font-size:12px; color:#64748b;">Reçu via le formulaire de contact du site.</p>
+</body></html>
