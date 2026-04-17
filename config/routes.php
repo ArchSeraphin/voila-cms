@@ -15,6 +15,9 @@ return function (Router $r): void {
     );
     $r->get('/media/{path:path}', [$media, 'serve']);
 
+    $sitemap = new \App\Controllers\SitemapController();
+    $r->get('/sitemap.xml', [$sitemap, 'index']);
+
     $auth = new AuthController();
     $r->get('/admin/login', [$auth, 'showLogin']);
     $r->post('/admin/login', [$auth, 'doLogin']);
