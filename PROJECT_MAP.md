@@ -95,10 +95,82 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 | Ajouter une clé par défaut | Nouvelle migration `database/migrations/0XX_seed_YYY.sql` |
 | Voir toutes les clés | Table `settings` en MySQL |
 
+### Système de modules
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Activer / désactiver un module | `config/modules.php` (liste des slugs actifs) |
+| Ajouter un module custom | Créer `app/modules/{slug}/` avec `module.json`, `routes.php`, `Model.php`, `AdminController.php`, `FrontController.php` puis ajouter le slug dans `config/modules.php` et créer la migration `0XX_create_{slug}.sql` |
+| Loader + registre | `app/Core/ModuleRegistry.php` |
+| Namespace PSR-4 d'un module | `composer.json` → bloc `autoload.psr-4` (ajouter `App\\Modules\\{Slug}\\` ⇒ `app/modules/{slug}/`) puis `composer dump-autoload` |
+
+### Settings admin (réglages via UI)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Contenu d'un onglet Réglages | `templates/admin/settings/{site|contact|seo|analytics}.html.twig` |
+| Layout Réglages (tabs) | `templates/admin/settings/layout.html.twig` |
+| Champs autorisés par onglet | `app/Controllers/Admin/SettingsController.php` (`TAB_FIELDS`) |
+| Ajouter un onglet | Ajouter un template + entrée dans `TABS` et `TAB_FIELDS` dans `SettingsController` |
+
+### Compte admin
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Formulaire "Mon compte" | `templates/admin/account.html.twig` |
+| Logique changement mot de passe | `app/Controllers/Admin/AccountController.php` |
+
+### Upload d'images via l'admin
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Endpoint upload | `app/Controllers/Admin/UploadController.php` (POST `/admin/upload`) |
+| JS côté form (fetch + preview) | fonction `voilaUpload()` inline dans les templates de formulaire module |
+
+### Éditeur riche (TinyMCE)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Configurer TinyMCE | Bloc `<script>tinymce.init(...)</script>` dans `templates/layouts/admin.html.twig` |
+| Activer sur un textarea | Ajouter la classe `js-tinymce` au `<textarea>` |
+| Assets TinyMCE | `public/assets/vendor/tinymce/` (self-hosted, ~5 Mo) |
+
+### Module Actualités (référence)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/009_create_actualites.sql` |
+| Modèle (requêtes PDO) | `app/modules/actualites/Model.php` |
+| Admin CRUD | `app/modules/actualites/AdminController.php` |
+| Admin templates | `templates/admin/modules/actualites/{list,form}.html.twig` |
+| Front list + détail | `app/modules/actualites/FrontController.php` + `templates/front/actualites/{list,single}.html.twig` |
+| Routes (admin + front) | `app/modules/actualites/routes.php` |
+| Manifest | `app/modules/actualites/module.json` |
+
+### Sitemap dynamique (étendu)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Étendre pour un nouveau module | `app/Controllers/SitemapController.php` (ajouter un bloc conditionnel sur `$reg->has('{slug}')`) |
+
+### Navigation / dashboard
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Liens dans la nav header front | `templates/partials/header.html.twig` (itère `admin_modules` pour ceux avec `has_detail`) |
+| Sidebar admin (modules dynamiques) | `templates/partials/admin-sidebar.html.twig` (itère `admin_modules`) |
+| Stats dashboard | `app/Controllers/Admin/DashboardController.php` + `templates/admin/dashboard.html.twig` |
+
+### Pagination
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Helper Paginator (math offset/limit) | `app/Core/Paginator.php` |
+| Usage dans un listing | Instancier `new Paginator($total, $perPage, $page)` puis lire `.offset`, `.lastPage`, `.hasPrev/hasNext` dans le template |
+
 ## Sections à compléter (plans futurs)
 
-- [Plan 03] Système de modules + Actualités/Partenaires/Réalisations + Settings admin UI
-- [Plan 04] Modules Équipe, Témoignages, Services, FAQ, Documents
+- [Plan 04] Modules Partenaires, Réalisations, Équipe, Témoignages, Services, FAQ, Documents
 - [Plan 05] Outillage brief & scaffolding
 
 ## Commandes utiles
