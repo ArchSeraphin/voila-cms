@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-10 text-center">Notre équipe</h1>
+    {% if rows|length == 0 %}
+    <p class="text-slate-500 text-center">Aucun membre à afficher pour l'instant.</p>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {% for r in rows %}
+        <div class="text-center">
+            {% if r.photo %}
+            <img src="/{{ r.photo }}" alt="{{ r.nom }}" class="mx-auto rounded-full w-40 h-40 object-cover mb-4">
+            {% else %}
+            <div class="mx-auto rounded-full w-40 h-40 bg-slate-200 mb-4"></div>
+            {% endif %}
+            <h2 class="font-display text-xl font-semibold">{{ r.nom }}</h2>
+            {% if r.fonction %}<p class="text-slate-600 mb-2">{{ r.fonction }}</p>{% endif %}
+            {% if r.bio %}<p class="text-sm text-slate-500 leading-relaxed">{{ r.bio }}</p>{% endif %}
+            {% if r.linkedin %}
+            <a href="{{ r.linkedin }}" target="_blank" rel="noopener" class="inline-block mt-3 text-primary hover:underline text-sm">LinkedIn →</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
