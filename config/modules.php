@@ -5,4 +5,5 @@ return [
     'partenaires',
     'equipe',
     'temoignages',
+    'faq',
 ];

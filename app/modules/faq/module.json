@@ -1,0 +1,8 @@
+{
+  "name": "faq",
+  "label": "FAQ",
+  "admin_path": "/admin/faq",
+  "admin_icon": "help",
+  "front_path": "/faq",
+  "has_detail": true
+}

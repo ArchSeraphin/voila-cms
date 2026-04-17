@@ -1,0 +1,23 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}{{ r.id ? 'Éditer' : 'Nouvelle' }} question — {{ app.name }}{% endblock %}
+{% block content %}
+<h1 class="font-display text-2xl font-semibold mb-6">{{ r.id ? 'Éditer une question' : 'Nouvelle question' }}</h1>
+<form method="post" action="{{ r.id ? '/admin/faq/' ~ r.id ~ '/edit' : '/admin/faq/new' }}" class="max-w-3xl space-y-4">
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    <div><label class="block text-sm font-medium mb-1">Question *</label>
+        <input type="text" name="question" value="{{ r.question }}" required class="w-full rounded border-slate-300 px-3 py-2"></div>
+    <div><label class="block text-sm font-medium mb-1">Réponse *</label>
+        <textarea name="reponse" class="js-tinymce w-full rounded border-slate-300 px-3 py-2">{{ r.reponse }}</textarea></div>
+    <div class="grid grid-cols-3 gap-4">
+        <div><label class="block text-sm font-medium mb-1">Catégorie</label>
+            <input type="text" name="categorie" value="{{ r.categorie }}" placeholder="Ex: Général" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div><label class="block text-sm font-medium mb-1">Ordre</label>
+            <input type="number" name="ordre" value="{{ r.ordre|default(0) }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div class="flex items-end"><label class="flex items-center gap-2 text-sm"><input type="checkbox" name="published" value="1" {% if r.published %}checked{% endif %}> Publié</label></div>
+    </div>
+    <div class="flex gap-2 pt-4">
+        <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium">Enregistrer</button>
+        <a href="/admin/faq" class="px-4 py-2 bg-white border border-slate-300 rounded hover:bg-slate-50">Annuler</a>
+    </div>
+</form>
+{% endblock %}
