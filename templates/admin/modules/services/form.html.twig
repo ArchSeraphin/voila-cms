@@ -1,0 +1,64 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}{{ r.id ? 'Éditer' : 'Nouveau' }} service — {{ app.name }}{% endblock %}
+{% block content %}
+<h1 class="font-display text-2xl font-semibold mb-6">{{ r.id ? 'Éditer un service' : 'Nouveau service' }}</h1>
+<form method="post" action="{{ r.id ? '/admin/services/' ~ r.id ~ '/edit' : '/admin/services/new' }}" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    <div class="md:col-span-2 space-y-4">
+        <div><label class="block text-sm font-medium mb-1">Titre *</label>
+            <input type="text" name="titre" value="{{ r.titre }}" required class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div><label class="block text-sm font-medium mb-1">Slug (URL)</label>
+            <input type="text" name="slug" value="{{ r.slug }}" placeholder="auto-généré depuis le titre si vide" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div><label class="block text-sm font-medium mb-1">Icône (optionnel)</label>
+            <input type="text" name="icone" value="{{ r.icone }}" placeholder="Ex: wrench, heart, star" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div><label class="block text-sm font-medium mb-1">Description courte</label>
+            <textarea name="description_courte" rows="2" class="w-full rounded border-slate-300 px-3 py-2">{{ r.description_courte }}</textarea></div>
+        <div><label class="block text-sm font-medium mb-1">Contenu</label>
+            <textarea name="contenu" class="js-tinymce w-full rounded border-slate-300 px-3 py-2">{{ r.contenu }}</textarea></div>
+        <fieldset class="pt-4 border-t">
+            <legend class="font-medium mb-2">SEO (optionnel)</legend>
+            <div class="space-y-4">
+                <div><label class="block text-sm font-medium mb-1">Titre SEO</label>
+                    <input type="text" name="seo_title" value="{{ r.seo_title }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+                <div><label class="block text-sm font-medium mb-1">Description SEO</label>
+                    <textarea name="seo_description" rows="2" class="w-full rounded border-slate-300 px-3 py-2">{{ r.seo_description }}</textarea></div>
+            </div>
+        </fieldset>
+    </div>
+    <aside class="space-y-4">
+        <div class="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 class="font-medium mb-3">Publication</h3>
+            <div class="space-y-3">
+                <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="published" value="1" {% if r.published %}checked{% endif %}> Publié</label>
+                <div><label class="block text-sm font-medium mb-1">Ordre</label>
+                    <input type="number" name="ordre" value="{{ r.ordre|default(0) }}" class="w-full rounded border-slate-300 px-3 py-2 text-sm"></div>
+            </div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-4">
+            <h3 class="font-medium mb-3">Image</h3>
+            <input type="hidden" name="image" id="image-input" value="{{ r.image }}">
+            <div id="image-preview" class="mb-2 {% if not r.image %}hidden{% endif %}">{% if r.image %}<img src="/{{ r.image }}" class="rounded w-full h-auto" alt="">{% endif %}</div>
+            <input type="file" accept="image/*" class="block text-sm" onchange="voilaUpload(this)">
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="flex-1 px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium text-sm">Enregistrer</button>
+            <a href="/admin/services" class="px-4 py-2 bg-white border border-slate-300 rounded hover:bg-slate-50 text-sm">Annuler</a>
+        </div>
+    </aside>
+</form>
+<script>
+function voilaUpload(input) {
+    const file = input.files[0]; if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('_csrf', document.querySelector('input[name="_csrf"]').value);
+    fetch('/admin/upload', { method: 'POST', body: fd }).then(r => r.json()).then(data => {
+        if (data.error) { alert('Erreur : ' + data.error); return; }
+        document.getElementById('image-input').value = data.path;
+        const prev = document.getElementById('image-preview');
+        prev.innerHTML = '<img src="/' + data.path + '" class="rounded w-full h-auto" alt="">';
+        prev.classList.remove('hidden');
+    }).catch(e => alert('Upload échoué : ' + e.message));
+}
+</script>
+{% endblock %}

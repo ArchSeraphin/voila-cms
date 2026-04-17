@@ -7,4 +7,5 @@ return [
     'temoignages',
     'faq',
     'documents',
+    'services',
 ];

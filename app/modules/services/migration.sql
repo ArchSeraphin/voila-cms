@@ -1,0 +1,16 @@
+CREATE TABLE services (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    icone VARCHAR(100) NULL,
+    description_courte VARCHAR(500) NULL,
+    contenu MEDIUMTEXT NULL,
+    image VARCHAR(255) NULL,
+    ordre SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    published TINYINT(1) NOT NULL DEFAULT 1,
+    seo_title VARCHAR(255) NULL,
+    seo_description VARCHAR(255) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_published_ordre (published, ordre)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

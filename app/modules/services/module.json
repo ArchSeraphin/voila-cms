@@ -1,0 +1,8 @@
+{
+  "name": "services",
+  "label": "Services",
+  "admin_path": "/admin/services",
+  "admin_icon": "wrench",
+  "front_path": "/services",
+  "has_detail": true
+}
