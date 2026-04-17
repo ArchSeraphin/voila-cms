@@ -47,7 +47,8 @@ final class Migrator
     {
         $stmt = $this->pdo->query("SHOW TABLES LIKE 'schema_migrations'");
         if (!$stmt || !$stmt->fetch()) return [];
-        $rows = $this->pdo->query("SELECT version FROM schema_migrations")?->fetchAll(PDO::FETCH_COLUMN) ?: [];
+        $versionStmt = $this->pdo->query("SELECT version FROM schema_migrations");
+        $rows = $versionStmt ? ($versionStmt->fetchAll(PDO::FETCH_COLUMN) ?: []) : [];
         return array_values(array_map('strval', $rows));
     }
 }

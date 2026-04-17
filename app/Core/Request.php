@@ -4,7 +4,13 @@ namespace App\Core;
 
 final class Request
 {
-    /** @param array<string,string> $headers */
+    /**
+     * @param array<string,string> $headers
+     * @param array<string,mixed>  $query
+     * @param array<string,mixed>  $body
+     * @param array<string,string> $cookies
+     * @param array<string,mixed>  $files
+     */
     public function __construct(
         public readonly string $method,
         public readonly string $path,

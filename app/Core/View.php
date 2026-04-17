@@ -24,6 +24,7 @@ final class View
         $this->twig->addFunction(new TwigFunction('csrf', fn() => Csrf::token()));
     }
 
+    /** @param array<string,mixed> $context */
     public function render(string $template, array $context = []): string
     {
         return $this->twig->render($template, $context);
