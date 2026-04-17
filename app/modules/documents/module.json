@@ -1,0 +1,8 @@
+{
+  "name": "documents",
+  "label": "Documents",
+  "admin_path": "/admin/documents",
+  "admin_icon": "document",
+  "front_path": "/documents",
+  "has_detail": true
+}

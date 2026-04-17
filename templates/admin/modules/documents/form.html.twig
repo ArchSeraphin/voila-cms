@@ -1,0 +1,47 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}{{ r.id ? 'Éditer' : 'Nouveau' }} document — {{ app.name }}{% endblock %}
+{% block content %}
+<h1 class="font-display text-2xl font-semibold mb-6">{{ r.id ? 'Éditer un document' : 'Nouveau document' }}</h1>
+<form method="post" action="{{ r.id ? '/admin/documents/' ~ r.id ~ '/edit' : '/admin/documents/new' }}" class="max-w-2xl space-y-4">
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    <div><label class="block text-sm font-medium mb-1">Titre *</label>
+        <input type="text" name="titre" value="{{ r.titre }}" required class="w-full rounded border-slate-300 px-3 py-2"></div>
+    <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium mb-1">Catégorie</label>
+            <input type="text" name="categorie" value="{{ r.categorie }}" placeholder="Ex: CGV, Brochures" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div><label class="block text-sm font-medium mb-1">Date</label>
+            <input type="date" name="date_document" value="{{ r.date_document }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium mb-1">Ordre</label>
+            <input type="number" name="ordre" value="{{ r.ordre|default(0) }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div class="flex items-end"><label class="flex items-center gap-2 text-sm"><input type="checkbox" name="published" value="1" {% if r.published %}checked{% endif %}> Publié</label></div>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg p-4">
+        <h3 class="font-medium mb-2">Fichier PDF *</h3>
+        <input type="hidden" name="fichier_path" id="fichier-input" value="{{ r.fichier_path }}">
+        <div id="fichier-preview" class="mb-2 {% if not r.fichier_path %}hidden{% endif %}">{% if r.fichier_path %}📄 <a href="/{{ r.fichier_path }}" target="_blank" class="underline text-primary">{{ r.fichier_path|split('/')|last }}</a>{% endif %}</div>
+        <input type="file" accept="application/pdf" class="block text-sm" onchange="voilaPdfUpload(this)">
+        <p class="text-xs text-slate-500 mt-1">PDF uniquement (max 20 Mo).</p>
+    </div>
+    <div class="flex gap-2 pt-4">
+        <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium">Enregistrer</button>
+        <a href="/admin/documents" class="px-4 py-2 bg-white border border-slate-300 rounded hover:bg-slate-50">Annuler</a>
+    </div>
+</form>
+<script>
+function voilaPdfUpload(input) {
+    const file = input.files[0]; if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('_csrf', document.querySelector('input[name="_csrf"]').value);
+    fetch('/admin/upload', { method: 'POST', body: fd }).then(r => r.json()).then(data => {
+        if (data.error) { alert('Erreur : ' + data.error); return; }
+        document.getElementById('fichier-input').value = data.path;
+        const prev = document.getElementById('fichier-preview');
+        prev.innerHTML = '📄 <a href="/' + data.path + '" target="_blank" class="underline text-primary">' + (data.name || data.path) + '</a>';
+        prev.classList.remove('hidden');
+    }).catch(e => alert('Upload échoué : ' + e.message));
+}
+</script>
+{% endblock %}

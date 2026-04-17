@@ -26,7 +26,8 @@
             "App\\Modules\\Partenaires\\": "app/modules/partenaires/",
             "App\\Modules\\Equipe\\": "app/modules/equipe/",
             "App\\Modules\\Temoignages\\": "app/modules/temoignages/",
-            "App\\Modules\\Faq\\": "app/modules/faq/"
+            "App\\Modules\\Faq\\": "app/modules/faq/",
+            "App\\Modules\\Documents\\": "app/modules/documents/"
         },
         "files": ["app/helpers.php"]
     },

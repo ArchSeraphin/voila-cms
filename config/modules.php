@@ -6,4 +6,5 @@ return [
     'equipe',
     'temoignages',
     'faq',
+    'documents',
 ];
