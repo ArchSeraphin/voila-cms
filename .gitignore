@@ -14,4 +14,5 @@
 !/public/uploads/.gitkeep
 /public/assets/css/app.compiled.css
 .phpunit.result.cache
+.phpunit.cache/
 .DS_Store
