@@ -24,5 +24,6 @@ class SitemapTest extends TestCase
         $this->assertStringContainsString('application/xml', $resp->headers['Content-Type']);
         $this->assertStringContainsString('<urlset', $resp->body);
         $this->assertStringContainsString('<loc>', $resp->body);
+        $this->assertStringContainsString('/politique-cookies', $resp->body);
     }
 }
