@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-10">Nos partenaires</h1>
+    {% if rows|length == 0 %}
+    <p class="text-slate-500">Aucun partenaire pour l'instant.</p>
+    {% else %}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+        {% for r in rows %}
+        <div class="text-center">
+            {% if r.url %}<a href="{{ r.url }}" target="_blank" rel="noopener" class="block">{% endif %}
+            {% if r.logo %}
+            <img src="/{{ r.logo }}" alt="{{ r.nom }}" class="mx-auto max-h-16 w-auto grayscale hover:grayscale-0 transition">
+            {% else %}
+            <div class="h-16 flex items-center justify-center font-medium text-slate-700">{{ r.nom }}</div>
+            {% endif %}
+            {% if r.url %}</a>{% endif %}
+            {% if r.description %}<p class="text-xs text-slate-500 mt-2">{{ r.description }}</p>{% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

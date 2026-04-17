@@ -12,4 +12,7 @@ return function (Router $r): void {
     $r->get('/admin/partenaires/{id}/edit',    [$admin, 'edit']);
     $r->post('/admin/partenaires/{id}/edit',   [$admin, 'update']);
     $r->post('/admin/partenaires/{id}/delete', [$admin, 'destroy']);
+
+    $front = new \App\Modules\Partenaires\FrontController();
+    $r->get('/partenaires', [$front, 'index']);
 };
