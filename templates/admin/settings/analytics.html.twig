@@ -1,0 +1,44 @@
+{% extends 'admin/settings/layout.html.twig' %}
+{% block tab_content %}
+<div class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium mb-1">Fournisseur</label>
+        <select name="analytics_provider" class="w-full rounded border-slate-300 px-3 py-2">
+            <option value="none"      {% if s.analytics_provider == 'none' %}selected{% endif %}>Aucun</option>
+            <option value="ga4"       {% if s.analytics_provider == 'ga4' %}selected{% endif %}>Google Analytics 4</option>
+            <option value="plausible" {% if s.analytics_provider == 'plausible' %}selected{% endif %}>Plausible</option>
+            <option value="matomo"    {% if s.analytics_provider == 'matomo' %}selected{% endif %}>Matomo</option>
+        </select>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">GA4 Measurement ID</label>
+        <input type="text" name="analytics_ga4_id" placeholder="G-XXXXXXXXXX" value="{{ s.analytics_ga4_id|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Google Tag Manager ID</label>
+        <input type="text" name="analytics_gtm_id" placeholder="GTM-XXXXXXX" value="{{ s.analytics_gtm_id|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        <p class="text-xs text-slate-500 mt-1">Optionnel — en plus ou à la place d'un autre fournisseur.</p>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Plausible — domaine</label>
+        <input type="text" name="analytics_plausible_domain" placeholder="monsite.fr" value="{{ s.analytics_plausible_domain|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium mb-1">Matomo — URL</label>
+            <input type="url" name="analytics_matomo_url" value="{{ s.analytics_matomo_url|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Matomo — Site ID</label>
+            <input type="text" name="analytics_matomo_site_id" value="{{ s.analytics_matomo_site_id|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+    </div>
+    <div class="pt-4 border-t">
+        <label class="flex items-center gap-3">
+            <input type="checkbox" name="consent_banner_enabled" value="1" {% if s.consent_banner_enabled == '1' %}checked{% endif %}>
+            <span class="text-sm"><strong>Activer la bannière de consentement cookies</strong><br>
+            Obligatoire si GA4 ou GTM est activé (conformité CNIL).</span>
+        </label>
+    </div>
+</div>
+{% endblock %}

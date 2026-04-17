@@ -1,0 +1,46 @@
+{% extends 'admin/settings/layout.html.twig' %}
+{% block tab_content %}
+<div class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium mb-1">Téléphone</label>
+            <input type="text" name="contact_phone" value="{{ s.contact_phone|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Email</label>
+            <input type="email" name="contact_email" value="{{ s.contact_email|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Adresse</label>
+        <input type="text" name="contact_address" value="{{ s.contact_address|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+            <label class="block text-sm font-medium mb-1">Code postal</label>
+            <input type="text" name="contact_postal_code" value="{{ s.contact_postal_code|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Ville</label>
+            <input type="text" name="contact_city" value="{{ s.contact_city|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Pays</label>
+            <input type="text" name="contact_country" value="{{ s.contact_country|default('FR') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Horaires</label>
+        <input type="text" name="contact_hours" value="{{ s.contact_hours|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <h3 class="font-medium pt-4">Réseaux sociaux</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for key in ['facebook','instagram','linkedin','twitter','youtube'] %}
+        <div>
+            <label class="block text-sm font-medium mb-1 capitalize">{{ key }}</label>
+            <input type="url" name="social_{{ key }}" value="{{ s['social_' ~ key]|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

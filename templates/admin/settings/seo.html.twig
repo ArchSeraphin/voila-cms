@@ -1,0 +1,42 @@
+{% extends 'admin/settings/layout.html.twig' %}
+{% block tab_content %}
+<div class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium mb-1">Titre SEO par défaut</label>
+        <input type="text" name="seo_default_title" value="{{ s.seo_default_title|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        <p class="text-xs text-slate-500 mt-1">Si vide, le nom du site est utilisé.</p>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Description SEO par défaut</label>
+        <textarea name="seo_default_description" rows="2" class="w-full rounded border-slate-300 px-3 py-2">{{ s.seo_default_description|default('') }}</textarea>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Image Open Graph par défaut</label>
+        <input type="text" name="seo_og_image" value="{{ s.seo_og_image|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Mots-clés cibles (séparés par virgules)</label>
+        <input type="text" name="seo_keywords" value="{{ s.seo_keywords|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <h3 class="font-medium pt-4">Schema.org LocalBusiness</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium mb-1">Type LocalBusiness</label>
+            <select name="localbusiness_type" class="w-full rounded border-slate-300 px-3 py-2">
+                {% for t in ['LocalBusiness','Plumber','Electrician','Restaurant','Bakery','Store','Dentist','Physician','AutoRepair','BeautySalon','HairSalon','LegalService','AccountingService'] %}
+                <option value="{{ t }}" {% if s.localbusiness_type == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div></div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Latitude</label>
+            <input type="text" name="localbusiness_geo_lat" value="{{ s.localbusiness_geo_lat|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Longitude</label>
+            <input type="text" name="localbusiness_geo_lng" value="{{ s.localbusiness_geo_lng|default('') }}" class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+    </div>
+</div>
+{% endblock %}
