@@ -57,14 +57,14 @@ final class Model
     public static function listPublished(): array
     {
         $rows = DB::conn()->query("SELECT * FROM services WHERE published=1 ORDER BY ordre ASC, titre ASC")->fetchAll();
-        return $rows === false ? [] : $rows;
+        return $rows ?: [];
     }
 
     /** @return list<array<string,mixed>> */
     public static function listAll(): array
     {
         $rows = DB::conn()->query("SELECT * FROM services ORDER BY ordre ASC, titre ASC")->fetchAll();
-        return $rows === false ? [] : $rows;
+        return $rows ?: [];
     }
 
     public static function countAll(): int

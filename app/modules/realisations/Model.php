@@ -59,14 +59,14 @@ final class Model
     public static function listPublished(): array
     {
         $rows = DB::conn()->query("SELECT * FROM realisations WHERE published=1 ORDER BY date_realisation DESC, id DESC")->fetchAll();
-        return $rows === false ? [] : $rows;
+        return $rows ?: [];
     }
 
     /** @return list<array<string,mixed>> */
     public static function listAll(): array
     {
         $rows = DB::conn()->query("SELECT * FROM realisations ORDER BY date_realisation DESC, id DESC")->fetchAll();
-        return $rows === false ? [] : $rows;
+        return $rows ?: [];
     }
 
     public static function countAll(): int
@@ -78,6 +78,6 @@ final class Model
         $rows = DB::conn()->query(
             "SELECT DISTINCT categorie FROM realisations WHERE published=1 AND categorie IS NOT NULL ORDER BY categorie"
         )->fetchAll(PDO::FETCH_COLUMN);
-        return $rows === false ? [] : array_map('strval', $rows);
+        return $rows ? array_map('strval', $rows) : [];
     }
 }
