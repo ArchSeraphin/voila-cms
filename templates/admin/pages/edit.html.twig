@@ -1,0 +1,24 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}Éditer {{ label }} — {{ app.name }}{% endblock %}
+{% block content %}
+<nav class="text-sm text-slate-500 mb-4"><a href="/admin/pages" class="hover:text-primary">← Pages</a></nav>
+<h1 class="font-display text-2xl font-semibold mb-6">Éditer la page {{ label }}</h1>
+
+<form method="post" action="/admin/pages/{{ slug }}/edit" class="max-w-3xl space-y-4">
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    {% for r in rows %}
+    <div>
+        <label class="block text-sm font-medium mb-1">{{ r.label }}</label>
+        {% if r.type == 'textarea' %}
+        <textarea name="{{ r.key }}" rows="4" class="w-full rounded border-slate-300 px-3 py-2">{{ r.value }}</textarea>
+        {% else %}
+        <input type="text" name="{{ r.key }}" value="{{ r.value }}" class="w-full rounded border-slate-300 px-3 py-2">
+        {% endif %}
+    </div>
+    {% endfor %}
+    <div class="flex gap-2 pt-4">
+        <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium">Enregistrer</button>
+        <a href="/admin/pages" class="px-4 py-2 bg-white border border-slate-300 rounded hover:bg-slate-50">Retour</a>
+    </div>
+</form>
+{% endblock %}

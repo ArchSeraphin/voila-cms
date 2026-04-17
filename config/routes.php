@@ -41,6 +41,11 @@ return function (Router $r): void {
     $r->get('/admin/account',  [$account, 'show']);
     $r->post('/admin/account', [$account, 'save']);
 
+    $pages = new \App\Controllers\Admin\PagesController();
+    $r->get('/admin/pages',                [$pages, 'index']);
+    $r->get('/admin/pages/{slug}/edit',    [$pages, 'edit']);
+    $r->post('/admin/pages/{slug}/edit',   [$pages, 'save']);
+
     $imageSvc = new \App\Services\ImageService(
         base_path('public/uploads'),
         require base_path('config/images.php'),
