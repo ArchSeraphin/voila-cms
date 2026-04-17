@@ -1,0 +1,80 @@
+{% if setting('consent_banner_enabled') == '1' and not consent_decided() %}
+<div id="voila-consent" class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white shadow-2xl">
+    <div class="mx-auto max-w-6xl px-4 py-5 md:flex md:items-center md:justify-between gap-4">
+        <div class="flex-1 text-sm leading-relaxed">
+            <strong class="block mb-1">Nous utilisons des cookies</strong>
+            Nous utilisons des cookies pour mesurer l'audience et améliorer votre expérience.
+            Vous pouvez accepter, refuser ou personnaliser votre choix.
+            <a href="/politique-cookies" class="underline ml-1">En savoir plus</a>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+            <button type="button" data-consent="none"
+                class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm">Tout refuser</button>
+            <button type="button" data-consent-open-custom
+                class="px-3 py-2 bg-slate-700 hover:bg-slate-600 rounded text-sm">Personnaliser</button>
+            <button type="button" data-consent="all"
+                class="px-3 py-2 bg-primary hover:bg-blue-700 rounded text-sm font-medium">Tout accepter</button>
+        </div>
+    </div>
+
+    <div id="voila-consent-custom" class="hidden border-t border-slate-700 bg-slate-900">
+        <div class="mx-auto max-w-6xl px-4 py-5">
+            <div class="space-y-3 text-sm">
+                <label class="flex items-start gap-3">
+                    <input type="checkbox" checked disabled class="mt-1">
+                    <span><strong>Nécessaires</strong><br>Indispensables au fonctionnement du site (session, CSRF).</span>
+                </label>
+                <label class="flex items-start gap-3">
+                    <input type="checkbox" data-cat="analytics" class="mt-1">
+                    <span><strong>Mesure d'audience</strong><br>Nous aide à comprendre comment le site est utilisé.</span>
+                </label>
+                <label class="flex items-start gap-3">
+                    <input type="checkbox" data-cat="marketing" class="mt-1">
+                    <span><strong>Marketing</strong><br>Permet de personnaliser les contenus et mesurer les campagnes.</span>
+                </label>
+            </div>
+            <div class="mt-4 flex justify-end gap-2">
+                <button type="button" data-consent-save
+                    class="px-3 py-2 bg-primary hover:bg-blue-700 rounded text-sm font-medium">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var banner = document.getElementById('voila-consent');
+    if (!banner) return;
+    var custom = document.getElementById('voila-consent-custom');
+
+    function persist(value) {
+        var d = new Date(); d.setTime(d.getTime() + 180 * 24 * 60 * 60 * 1000);
+        document.cookie = 'voila_consent=' + value + ';expires=' + d.toUTCString() + ';path=/;samesite=lax';
+        banner.remove();
+        if (typeof gtag === 'function') {
+            var hasA = value === 'all' || value.indexOf('analytics') !== -1;
+            var hasM = value === 'all' || value.indexOf('marketing') !== -1;
+            gtag('consent', 'update', {
+                analytics_storage: hasA ? 'granted' : 'denied',
+                ad_storage:        hasM ? 'granted' : 'denied',
+                ad_user_data:      hasM ? 'granted' : 'denied',
+                ad_personalization:hasM ? 'granted' : 'denied'
+            });
+        }
+    }
+
+    banner.querySelectorAll('[data-consent]').forEach(function (btn) {
+        btn.addEventListener('click', function () { persist(btn.getAttribute('data-consent')); });
+    });
+    var openCustom = banner.querySelector('[data-consent-open-custom]');
+    if (openCustom) openCustom.addEventListener('click', function () { custom.classList.remove('hidden'); });
+
+    var saveBtn = banner.querySelector('[data-consent-save]');
+    if (saveBtn) saveBtn.addEventListener('click', function () {
+        var cats = [];
+        banner.querySelectorAll('[data-cat]:checked').forEach(function (c) { cats.push(c.getAttribute('data-cat')); });
+        persist(cats.length ? 'custom:' + cats.join(',') : 'none');
+    });
+})();
+</script>
+{% endif %}
