@@ -1,0 +1,65 @@
+{% set provider = setting('analytics_provider', 'none') %}
+{% set ga4_id   = setting('analytics_ga4_id') %}
+{% set gtm_id   = setting('analytics_gtm_id') %}
+{% set plausible_domain = setting('analytics_plausible_domain') %}
+{% set matomo_url = setting('analytics_matomo_url') %}
+{% set matomo_site = setting('analytics_matomo_site_id') %}
+
+{# Google Consent Mode v2 defaults (must fire BEFORE gtag/gtm) #}
+{% if provider == 'ga4' or gtm_id %}
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+    'ad_storage':         'denied',
+    'analytics_storage':  'denied',
+    'ad_user_data':       'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update':    500
+});
+{% if consent_has('analytics') %}
+gtag('consent', 'update', {
+    'analytics_storage': 'granted'
+});
+{% endif %}
+{% if consent_has('marketing') %}
+gtag('consent', 'update', {
+    'ad_storage':         'granted',
+    'ad_user_data':       'granted',
+    'ad_personalization': 'granted'
+});
+{% endif %}
+</script>
+{% endif %}
+
+{% if provider == 'ga4' and ga4_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_id }}"></script>
+<script>gtag('js', new Date()); gtag('config', '{{ ga4_id }}');</script>
+{% endif %}
+
+{% if gtm_id %}
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','{{ gtm_id }}');</script>
+{% endif %}
+
+{% if provider == 'plausible' and plausible_domain %}
+{# Plausible is privacy-friendly by design — no consent needed #}
+<script defer data-domain="{{ plausible_domain }}" src="https://plausible.io/js/script.js"></script>
+{% endif %}
+
+{% if provider == 'matomo' and matomo_url and matomo_site and consent_has('analytics') %}
+<script>
+var _paq = window._paq = window._paq || [];
+_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);
+(function() {
+  var u="{{ matomo_url|trim('/') }}/";
+  _paq.push(['setTrackerUrl', u+'matomo.php']);
+  _paq.push(['setSiteId', '{{ matomo_site }}']);
+  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+  g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+})();
+</script>
+{% endif %}
