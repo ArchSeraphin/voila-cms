@@ -12,4 +12,7 @@ return function (Router $r): void {
     $r->get('/admin/faq/{id}/edit',    [$admin, 'edit']);
     $r->post('/admin/faq/{id}/edit',   [$admin, 'update']);
     $r->post('/admin/faq/{id}/delete', [$admin, 'destroy']);
+
+    $front = new \App\Modules\Faq\FrontController();
+    $r->get('/faq', [$front, 'index']);
 };
