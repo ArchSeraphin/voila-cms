@@ -15,6 +15,10 @@ return function (Router $r): void {
     $legal = new \App\Controllers\Front\LegalController();
     $r->get('/mentions-legales', [$legal, 'index']);
 
+    $contact = new \App\Controllers\Front\ContactController();
+    $r->get('/contact',  [$contact, 'show']);
+    // POST added in P05-08
+
     $cookies = new CookiesController();
     $r->get('/politique-cookies', [$cookies, 'index']);
 

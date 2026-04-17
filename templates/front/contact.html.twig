@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-2xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-4">Contact</h1>
+    {% set intro = page_block('contact', 'intro_text', '') %}
+    {% if intro %}<p class="text-slate-600 mb-8">{{ intro|nl2br }}</p>{% endif %}
+
+    {% if sent %}
+    <div class="rounded bg-green-50 border border-green-200 text-green-800 px-4 py-3">
+        Merci ! Votre message a bien été envoyé. Nous vous répondrons rapidement.
+    </div>
+    {% else %}
+    {% if error %}<div class="mb-4 rounded bg-red-50 border border-red-200 text-red-800 px-4 py-3 text-sm">{{ error }}</div>{% endif %}
+    <form method="post" action="/contact" class="space-y-4">
+        <input type="hidden" name="_csrf" value="{{ csrf() }}">
+        {# Honeypot field — real users leave empty; bots fill it #}
+        <div style="position:absolute;left:-9999px" aria-hidden="true">
+            <label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Nom *</label>
+                <input type="text" name="nom" value="{{ values.nom }}" required
+                       class="w-full rounded border-slate-300 px-3 py-2">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Email *</label>
+                <input type="email" name="email" value="{{ values.email }}" required
+                       class="w-full rounded border-slate-300 px-3 py-2">
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Sujet</label>
+            <input type="text" name="sujet" value="{{ values.sujet }}"
+                   class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Message *</label>
+            <textarea name="message" rows="6" required
+                      class="w-full rounded border-slate-300 px-3 py-2">{{ values.message }}</textarea>
+        </div>
+        <button type="submit" class="px-6 py-3 bg-primary text-white rounded hover:bg-blue-700 font-medium">
+            Envoyer le message
+        </button>
+    </form>
+    {% endif %}
+
+    {% if setting('contact_email') or setting('contact_phone') or setting('contact_address') %}
+    <div class="mt-10 pt-6 border-t border-slate-200 text-sm text-slate-600 space-y-1">
+        {% if setting('contact_email') %}<div>📧 <a href="mailto:{{ setting('contact_email') }}" class="hover:text-primary">{{ setting('contact_email') }}</a></div>{% endif %}
+        {% if setting('contact_phone') %}<div>📞 <a href="tel:{{ setting('contact_phone') }}" class="hover:text-primary">{{ setting('contact_phone') }}</a></div>{% endif %}
+        {% if setting('contact_address') %}<div>📍 {{ setting('contact_address') }}{% if setting('contact_city') %}, {{ setting('contact_postal_code') }} {{ setting('contact_city') }}{% endif %}</div>{% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
