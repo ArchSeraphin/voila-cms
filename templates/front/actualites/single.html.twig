@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<article class="mx-auto max-w-3xl px-4 py-16">
+    <nav class="text-sm text-slate-500 mb-4">
+        <a href="/actualites" class="hover:text-primary">← Toutes les actualités</a>
+    </nav>
+    <time class="text-xs text-slate-500 uppercase tracking-wider">{{ row.date_publication|date('d F Y') }}</time>
+    <h1 class="font-display text-4xl font-bold mt-1 mb-8">{{ row.titre }}</h1>
+    {% if row.image %}
+    <img src="/{{ row.image }}" alt="{{ row.titre }}" class="rounded w-full h-auto mb-8">
+    {% endif %}
+    {% if row.extrait %}
+    <p class="text-xl text-slate-600 leading-relaxed mb-6">{{ row.extrait }}</p>
+    {% endif %}
+    <div class="prose prose-slate max-w-none">
+        {{ row.contenu|raw }}
+    </div>
+</article>
+{% endblock %}
