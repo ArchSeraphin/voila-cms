@@ -240,10 +240,73 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 | Front (liste + filtre catégorie + détail + gallery) | `app/modules/realisations/FrontController.php` + `templates/front/realisations/{list,single}.html.twig` |
 | JSON-LD CreativeWork | `SchemaBuilder::creativeWork()` appelé par `FrontController::show()` |
 
+### Mailer (SMTP)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Configurer SMTP | `.env` (MAIL_*) |
+| Changer la config mail | `config/mail.php` |
+| Service mail wrapper | `app/Core/Mailer.php` |
+| Template email reset mot de passe | `templates/emails/password-reset.html.twig` |
+| Template email notification contact | `templates/emails/contact-notification.html.twig` |
+
+### Password reset
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Logique tokens | `app/Services/PasswordReset.php` |
+| UI forgot + reset | `templates/admin/auth/{forgot,reset}.html.twig` |
+| Controller forgot/reset | `app/Controllers/Admin/AuthController.php` |
+| TTL (30 min) | Config directement dans `PasswordReset::__construct` |
+
+### Pages statiques éditables (page_block)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Déclarer les blocs d'une page | `config/pages.php` |
+| Lire un bloc dans un template | `{{ page_block('home', 'hero_title', 'Défaut') }}` |
+| Service | `app/Services/PagesBlocks.php` |
+| UI admin (liste + édition) | `app/Controllers/Admin/PagesController.php` + `templates/admin/pages/{list,edit}.html.twig` |
+| Seed des blocs défaut | `database/migrations/018_seed_default_pages_blocks.sql` |
+
+### Pages front statiques
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Accueil | `templates/front/home.html.twig` (utilise `page_block()`) |
+| À propos | `templates/front/about.html.twig` + `app/Controllers/Front/AboutController.php` |
+| Mentions légales | `templates/front/legal.html.twig` + `app/Controllers/Front/LegalController.php` |
+| Contact | `templates/front/contact.html.twig` + `app/Controllers/Front/ContactController.php` |
+
+### Formulaire de contact
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Champs du formulaire | `templates/front/contact.html.twig` |
+| Validation + stockage + envoi email | `app/Controllers/Front/ContactController::submit()` |
+| Anti-bot (honeypot) | Champ `website` caché dans le form, rejet silencieux si rempli |
+| Rate limiting | `app/Middleware/RateLimit.php` — paths `/admin/login` + `/contact` |
+
+### Messages admin (inbox)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Liste + détail + suppression | `app/Controllers/Admin/MessagesController.php` |
+| Templates | `templates/admin/messages/{list,show}.html.twig` |
+| Table | `contact_messages` (migration 006) |
+
+### Brief scaffolding tooling
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Formulaire brief | `_starter/brief.html` |
+| Endpoint sauvegarde | `_starter/save.php` (lancer avec `php -S localhost:9000 -t _starter/`) |
+| Schéma JSON | `_starter/brief.json.example` |
+| Prompts scaffolding | `_starter/prompts/00-scaffold.md`, `01-refonte.md`, `02-module-customization.md` |
+
 ## Sections à compléter (plans futurs)
 
-- [Plan 05] Outillage brief & scaffolding (brief.html, save.php, prompts, PROJECT_MAP generator)
-- [Plan 06] Maintenance & Hardening (upgrade Glide/Intervention, 2FA, reset password email, Security tab)
+- [Plan 06] Maintenance & Hardening (upgrade Glide/Intervention, 2FA TOTP, HEAD→GET router, CSRF rate-limit, Slug transliterator, admin image Glide preview)
 
 ## Commandes utiles
 

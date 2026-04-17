@@ -40,3 +40,11 @@ Site vitrine basé sur voila-cms. Stack figée : PHP 8.2 natif + MySQL + Twig + 
 - Alt text obligatoire sur toutes les images
 - Responsive (mobile first)
 - Respecter la charte définie dans `tailwind.config.js`
+
+## Scaffolding d'un nouveau projet
+
+Si `_starter/brief.json` existe et semble récent :
+- Lis-le comme source de vérité du projet
+- Consulte `_starter/prompts/00-scaffold.md` pour la checklist complète
+- Si `brief.mode === 'refonte'`, lis aussi `_starter/prompts/01-refonte.md`
+- Pour adapter un module spécifique, `_starter/prompts/02-module-customization.md`
