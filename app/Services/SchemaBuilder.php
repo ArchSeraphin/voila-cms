@@ -122,6 +122,23 @@ final class SchemaBuilder
         ]);
     }
 
+    /** @param array{name:string,url:string,description?:string,provider?:string,image?:string} $data */
+    public static function service(array $data): string
+    {
+        $out = [
+            '@context' => 'https://schema.org',
+            '@type'    => 'Service',
+            'name'     => $data['name'],
+            'url'      => $data['url'],
+        ];
+        if (!empty($data['description'])) $out['description'] = $data['description'];
+        if (!empty($data['image']))       $out['image']       = $data['image'];
+        if (!empty($data['provider'])) {
+            $out['provider'] = ['@type' => 'Organization', 'name' => $data['provider']];
+        }
+        return self::encode($out);
+    }
+
     /** @param array<string,mixed> $data */
     private static function encode(array $data): string
     {

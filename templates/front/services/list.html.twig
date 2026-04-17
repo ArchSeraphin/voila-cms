@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-5xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-10 text-center">Nos services</h1>
+    {% if rows|length == 0 %}
+    <p class="text-slate-500 text-center">Aucun service à afficher pour l'instant.</p>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for r in rows %}
+        <a href="/services/{{ r.slug }}" class="block bg-white border border-slate-200 rounded-lg p-6 hover:border-primary hover:shadow transition group">
+            {% if r.image %}<img src="/{{ r.image }}" alt="{{ r.titre }}" class="w-full h-40 object-cover rounded mb-4">{% endif %}
+            <h2 class="font-display text-xl font-semibold mb-2 group-hover:text-primary">{{ r.titre }}</h2>
+            {% if r.description_courte %}<p class="text-slate-600 text-sm leading-relaxed">{{ r.description_courte }}</p>{% endif %}
+            <span class="inline-block mt-3 text-primary text-sm font-medium">En savoir plus →</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

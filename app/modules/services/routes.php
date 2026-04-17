@@ -12,4 +12,8 @@ return function (Router $r): void {
     $r->get('/admin/services/{id}/edit',    [$admin, 'edit']);
     $r->post('/admin/services/{id}/edit',   [$admin, 'update']);
     $r->post('/admin/services/{id}/delete', [$admin, 'destroy']);
+
+    $front = new \App\Modules\Services\FrontController();
+    $r->get('/services',          [$front, 'index']);
+    $r->get('/services/{slug}',   [$front, 'show']);
 };

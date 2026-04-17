@@ -67,4 +67,19 @@ class SchemaBuilderTest extends TestCase
         $this->assertSame('Question', $data['mainEntity'][0]['@type']);
         $this->assertSame('Oui, gratuit.', $data['mainEntity'][1]['acceptedAnswer']['text']);
     }
+
+    public function test_service(): void
+    {
+        $json = SchemaBuilder::service([
+            'name'        => 'Plomberie',
+            'url'         => 'https://example.test/services/plomberie',
+            'description' => 'Dépannage rapide',
+            'provider'    => 'Acme',
+            'image'       => 'https://example.test/img.jpg',
+        ]);
+        $data = json_decode($json, true);
+        $this->assertSame('Service', $data['@type']);
+        $this->assertSame('Plomberie', $data['name']);
+        $this->assertSame('Acme', $data['provider']['name']);
+    }
 }
