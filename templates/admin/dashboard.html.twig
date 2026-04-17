@@ -1,0 +1,22 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block content %}
+<div class="max-w-4xl">
+    <h1 class="font-display text-3xl font-semibold mb-2">Bonjour {{ user.email }}</h1>
+    <p class="text-slate-600 mb-8">Bienvenue dans l'administration.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-lg bg-white shadow p-6">
+            <div class="text-slate-500 text-sm">Messages non lus</div>
+            <div class="text-2xl font-semibold mt-1">0</div>
+        </div>
+        <div class="rounded-lg bg-white shadow p-6">
+            <div class="text-slate-500 text-sm">Contenus publiés</div>
+            <div class="text-2xl font-semibold mt-1">0</div>
+        </div>
+        <div class="rounded-lg bg-white shadow p-6">
+            <div class="text-slate-500 text-sm">Modules actifs</div>
+            <div class="text-2xl font-semibold mt-1">0</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
