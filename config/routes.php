@@ -2,12 +2,15 @@
 declare(strict_types=1);
 
 use App\Core\Router;
-use App\Controllers\Front\{HomeController, MediaController};
+use App\Controllers\Front\{HomeController, MediaController, CookiesController};
 use App\Controllers\Admin\{AuthController, DashboardController};
 
 return function (Router $r): void {
     $home = new HomeController();
     $r->get('/', [$home, 'index']);
+
+    $cookies = new CookiesController();
+    $r->get('/politique-cookies', [$cookies, 'index']);
 
     $media = new MediaController(
         sourcePath: base_path('public/uploads'),

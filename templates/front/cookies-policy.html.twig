@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<article class="mx-auto max-w-3xl px-4 py-16 prose prose-slate">
+    <h1>Politique de cookies</h1>
+    <p><strong>Dernière mise à jour :</strong> {{ "now"|date("d/m/Y") }}</p>
+
+    <h2>Qu'est-ce qu'un cookie ?</h2>
+    <p>Un cookie est un petit fichier texte stocké sur votre appareil lors de votre visite sur un site web.
+    Il permet au site de mémoriser certaines informations (préférences, session, statistiques).</p>
+
+    <h2>Cookies utilisés sur ce site</h2>
+
+    <h3>Cookies nécessaires</h3>
+    <p>Indispensables au fonctionnement du site, ils ne nécessitent pas de consentement :</p>
+    <ul>
+        <li><code>voila_sess</code> — session utilisateur (durée : session)</li>
+        <li><code>voila_consent</code> — mémorisation de votre choix (durée : 6 mois)</li>
+    </ul>
+
+    <h3>Cookies de mesure d'audience (analytics)</h3>
+    <p>Activés uniquement si vous les acceptez via le bandeau de consentement.</p>
+
+    <h3>Cookies marketing</h3>
+    <p>Activés uniquement si vous les acceptez via le bandeau de consentement.</p>
+
+    <h2>Gérer vos préférences</h2>
+    <p>Vous pouvez à tout moment modifier votre choix :</p>
+    <p>
+        <button type="button" id="reopen-consent"
+            class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700">Gérer mes cookies</button>
+    </p>
+
+    <h2>Contact</h2>
+    <p>Pour toute question relative aux cookies ou à vos données personnelles :</p>
+    <address>
+        {{ setting('contact_email') }}<br>
+        {{ setting('contact_phone') }}
+    </address>
+</article>
+
+<script>
+document.getElementById('reopen-consent')?.addEventListener('click', function () {
+    document.cookie = 'voila_consent=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
+    location.reload();
+});
+</script>
+{% endblock %}
