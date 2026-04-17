@@ -3,6 +3,7 @@
     <nav class="space-y-1 text-sm">
         <a href="/admin" class="block rounded px-3 py-2 hover:bg-slate-800">Tableau de bord</a>
         <a href="/admin/pages" class="block rounded px-3 py-2 hover:bg-slate-800">Pages statiques</a>
+        <a href="/admin/messages" class="block rounded px-3 py-2 hover:bg-slate-800">Messages</a>
         {% if admin_modules is defined %}
             {% for m in admin_modules %}
                 <a href="{{ m.admin_path }}" class="block rounded px-3 py-2 hover:bg-slate-800">{{ m.label }}</a>

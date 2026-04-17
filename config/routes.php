@@ -56,6 +56,11 @@ return function (Router $r): void {
     $r->get('/admin/pages/{slug}/edit',    [$pages, 'edit']);
     $r->post('/admin/pages/{slug}/edit',   [$pages, 'save']);
 
+    $messages = new \App\Controllers\Admin\MessagesController();
+    $r->get('/admin/messages',              [$messages, 'index']);
+    $r->get('/admin/messages/{id}',         [$messages, 'show']);
+    $r->post('/admin/messages/{id}/delete', [$messages, 'destroy']);
+
     $imageSvc = new \App\Services\ImageService(
         base_path('public/uploads'),
         require base_path('config/images.php'),
