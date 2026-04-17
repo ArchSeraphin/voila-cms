@@ -1,0 +1,50 @@
+{
+  "client": {
+    "name": "Nom du client",
+    "raison_sociale": "",
+    "domain": "monclient.fr",
+    "secteur": "",
+    "contact": { "tel": "", "email": "", "address": "" },
+    "hours": "",
+    "social": { "facebook": "", "instagram": "", "linkedin": "", "twitter": "", "youtube": "" }
+  },
+  "mode": "new",
+  "source_url": "",
+  "charte": {
+    "color_primary": "#1e40af",
+    "color_secondary": "#64748b",
+    "color_accent": "#f59e0b",
+    "font_title": "Inter",
+    "font_body": "Inter",
+    "tone": "pro",
+    "style": "sobre"
+  },
+  "modules": {
+    "actualites": false,
+    "partenaires": false,
+    "realisations": false,
+    "equipe": false,
+    "temoignages": false,
+    "services": false,
+    "faq": false,
+    "documents": false
+  },
+  "static_pages_blocks": {
+    "home":    ["hero_title", "hero_subtitle", "cta_label", "intro_paragraph"],
+    "about":   ["intro_title", "intro_text", "values_block"],
+    "contact": ["intro_text"],
+    "legal":   ["editor_name", "editor_info", "hosting_info"]
+  },
+  "content": "",
+  "instructions": "",
+  "seo": {
+    "keywords": "",
+    "geo_lat": "",
+    "geo_lng": "",
+    "localbusiness_type": "LocalBusiness"
+  },
+  "analytics": {
+    "provider": "none",
+    "require_consent_banner": true
+  }
+}

@@ -16,3 +16,6 @@
 .phpunit.result.cache
 .phpunit.cache/
 .DS_Store
+
+# Scaffolding tool
+/_starter/brief.json

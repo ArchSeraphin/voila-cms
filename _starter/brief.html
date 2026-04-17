@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>voila-cms — Brief projet</title>
+    <style>
+        :root { --bg:#f8fafc; --card:#fff; --border:#e2e8f0; --primary:#1e40af; --text:#0f172a; --muted:#64748b; }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h1 { margin: 0 0 8px; }
+        .sub { color: var(--muted); margin: 0 0 32px; }
+        fieldset { background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin: 0 0 20px; padding: 20px; }
+        legend { font-weight: 600; padding: 0 8px; }
+        label { display:block; font-size: 14px; margin: 12px 0 4px; font-weight: 500; }
+        input[type=text], input[type=email], input[type=url], input[type=tel], input[type=color], select, textarea {
+            width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; font-family: inherit;
+        }
+        textarea { min-height: 80px; resize: vertical; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .check { display: flex; align-items: flex-start; gap: 8px; margin: 6px 0; font-weight: 400; }
+        .check input { margin-top: 2px; }
+        .muted { color: var(--muted); font-size: 12px; margin-top: 4px; }
+        .actions { display: flex; gap: 10px; margin: 30px 0; position: sticky; bottom: 0; background: var(--bg); padding: 16px 0; border-top: 1px solid var(--border); }
+        button {
+            padding: 10px 20px; border: 1px solid var(--border); background: var(--card); border-radius: 4px;
+            font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit;
+        }
+        button.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+        button:hover { opacity: 0.9; }
+        .status { margin-top: 10px; font-size: 13px; }
+        .status.ok { color: #047857; }
+        .status.err { color: #b91c1c; }
+        textarea#prompt-output { font-family: monospace; font-size: 12px; min-height: 300px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>voila-cms — Brief projet</h1>
+    <p class="sub">Remplis les sections, sauvegarde <code>brief.json</code>, puis copie le prompt Claude Code.</p>
+
+    <form id="brief">
+        <fieldset>
+            <legend>1. Client</legend>
+            <div class="row">
+                <div><label>Nom du site</label><input type="text" name="client.name" required></div>
+                <div><label>Raison sociale</label><input type="text" name="client.raison_sociale"></div>
+            </div>
+            <div class="row">
+                <div><label>Domaine</label><input type="text" name="client.domain" placeholder="monclient.fr" required></div>
+                <div><label>Secteur</label><input type="text" name="client.secteur"></div>
+            </div>
+            <div class="row3">
+                <div><label>Téléphone</label><input type="tel" name="client.contact.tel"></div>
+                <div><label>Email</label><input type="email" name="client.contact.email"></div>
+                <div><label>Horaires</label><input type="text" name="client.hours"></div>
+            </div>
+            <label>Adresse</label><input type="text" name="client.contact.address">
+            <div class="row">
+                <div><label>Facebook</label><input type="url" name="client.social.facebook"></div>
+                <div><label>Instagram</label><input type="url" name="client.social.instagram"></div>
+            </div>
+            <div class="row">
+                <div><label>LinkedIn</label><input type="url" name="client.social.linkedin"></div>
+                <div><label>Twitter / X</label><input type="url" name="client.social.twitter"></div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>2. Mode du projet</legend>
+            <label class="check"><input type="radio" name="mode" value="new" checked> Nouveau site</label>
+            <label class="check"><input type="radio" name="mode" value="refonte"> Refonte d'un site existant</label>
+            <label>URL du site existant (si refonte)</label>
+            <input type="url" name="source_url" placeholder="https://ancien-site.fr">
+        </fieldset>
+
+        <fieldset>
+            <legend>3. Charte graphique</legend>
+            <div class="row3">
+                <div><label>Couleur primaire</label><input type="color" name="charte.color_primary" value="#1e40af"></div>
+                <div><label>Couleur secondaire</label><input type="color" name="charte.color_secondary" value="#64748b"></div>
+                <div><label>Couleur accent</label><input type="color" name="charte.color_accent" value="#f59e0b"></div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Police titres (Google Fonts)</label>
+                    <select name="charte.font_title">
+                        <option>Inter</option><option>Poppins</option><option>Montserrat</option>
+                        <option>Playfair Display</option><option>Merriweather</option><option>Raleway</option>
+                        <option>Roboto</option><option>Lora</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Police corps (Google Fonts)</label>
+                    <select name="charte.font_body">
+                        <option>Inter</option><option>Roboto</option><option>Open Sans</option>
+                        <option>Lato</option><option>Source Sans 3</option><option>Nunito</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Ton éditorial</label>
+                    <select name="charte.tone">
+                        <option value="pro">Professionnel</option>
+                        <option value="chaleureux">Chaleureux</option>
+                        <option value="creatif">Créatif</option>
+                        <option value="institutionnel">Institutionnel</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Style visuel</label>
+                    <select name="charte.style">
+                        <option value="sobre">Sobre</option>
+                        <option value="moderne">Moderne</option>
+                        <option value="premium">Premium</option>
+                        <option value="vivant">Vivant</option>
+                    </select>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>4. Modules à activer</legend>
+            <label class="check"><input type="checkbox" name="modules.actualites"> 📰 Actualités</label>
+            <label class="check"><input type="checkbox" name="modules.partenaires"> 🤝 Partenaires</label>
+            <label class="check"><input type="checkbox" name="modules.realisations"> 🏆 Réalisations (avec gallery)</label>
+            <label class="check"><input type="checkbox" name="modules.equipe"> 👥 Équipe</label>
+            <label class="check"><input type="checkbox" name="modules.temoignages"> 💬 Témoignages</label>
+            <label class="check"><input type="checkbox" name="modules.services"> ⚙️ Services</label>
+            <label class="check"><input type="checkbox" name="modules.faq"> ❓ FAQ</label>
+            <label class="check"><input type="checkbox" name="modules.documents"> 📄 Documents (PDF)</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>5. Blocs éditables des pages statiques</legend>
+            <p class="muted">Coche ceux que le client pourra modifier en backoffice. Les autres parties resteront figées.</p>
+            <strong>Accueil</strong>
+            <label class="check"><input type="checkbox" name="pages.home.hero_title" checked> hero_title (titre principal)</label>
+            <label class="check"><input type="checkbox" name="pages.home.hero_subtitle" checked> hero_subtitle (sous-titre)</label>
+            <label class="check"><input type="checkbox" name="pages.home.cta_label"> cta_label (texte bouton)</label>
+            <label class="check"><input type="checkbox" name="pages.home.intro_paragraph" checked> intro_paragraph (paragraphe intro)</label>
+            <strong>À propos</strong>
+            <label class="check"><input type="checkbox" name="pages.about.intro_title" checked> intro_title</label>
+            <label class="check"><input type="checkbox" name="pages.about.intro_text" checked> intro_text</label>
+            <label class="check"><input type="checkbox" name="pages.about.values_block"> values_block</label>
+            <strong>Contact</strong>
+            <label class="check"><input type="checkbox" name="pages.contact.intro_text" checked> intro_text</label>
+            <strong>Mentions légales</strong>
+            <label class="check"><input type="checkbox" name="pages.legal.editor_name" checked> editor_name</label>
+            <label class="check"><input type="checkbox" name="pages.legal.editor_info" checked> editor_info</label>
+            <label class="check"><input type="checkbox" name="pages.legal.hosting_info" checked> hosting_info</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>6. Contenu existant</legend>
+            <label>Colle ici les textes à reprendre (bio, services, etc.)</label>
+            <textarea name="content"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>7. Instructions spéciales</legend>
+            <label>Consignes libres pour Claude</label>
+            <textarea name="instructions" placeholder="Ex: Mettre en avant l'artisanat local, beaucoup d'images équipe, design épuré..."></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>8. SEO local</legend>
+            <label>Mots-clés cibles (séparés par virgules)</label>
+            <input type="text" name="seo.keywords" placeholder="plombier, Paris 11, dépannage 24h">
+            <div class="row">
+                <div><label>Latitude</label><input type="text" name="seo.geo_lat" placeholder="48.8566"></div>
+                <div><label>Longitude</label><input type="text" name="seo.geo_lng" placeholder="2.3522"></div>
+            </div>
+            <label>Type LocalBusiness (Schema.org)</label>
+            <select name="seo.localbusiness_type">
+                <option>LocalBusiness</option><option>Plumber</option><option>Electrician</option>
+                <option>Restaurant</option><option>Bakery</option><option>Store</option>
+                <option>Dentist</option><option>Physician</option><option>AutoRepair</option>
+                <option>BeautySalon</option><option>HairSalon</option><option>LegalService</option>
+                <option>AccountingService</option>
+            </select>
+        </fieldset>
+
+        <fieldset>
+            <legend>9. Analytics</legend>
+            <label>Fournisseur</label>
+            <select name="analytics.provider">
+                <option value="none">Aucun</option>
+                <option value="ga4">Google Analytics 4</option>
+                <option value="plausible">Plausible</option>
+                <option value="matomo">Matomo</option>
+            </select>
+            <label class="check" style="margin-top:10px"><input type="checkbox" name="analytics.require_consent_banner" checked> Afficher la bannière de consentement</label>
+        </fieldset>
+
+        <div class="actions">
+            <button type="button" id="save-btn" class="primary">💾 Sauvegarder brief.json</button>
+            <button type="button" id="copy-btn">📋 Copier le prompt Claude Code</button>
+        </div>
+        <div id="save-status" class="status"></div>
+    </form>
+
+    <h2>Prompt généré (copie-le dans Claude Code)</h2>
+    <textarea id="prompt-output" readonly></textarea>
+</div>
+
+<script>
+function formToBrief(form) {
+    const data = {
+        client:{ name:'', raison_sociale:'', domain:'', secteur:'', contact:{tel:'',email:'',address:''}, hours:'', social:{facebook:'',instagram:'',linkedin:'',twitter:'',youtube:''} },
+        mode:'new', source_url:'',
+        charte:{ color_primary:'#1e40af', color_secondary:'#64748b', color_accent:'#f59e0b', font_title:'Inter', font_body:'Inter', tone:'pro', style:'sobre' },
+        modules:{ actualites:false, partenaires:false, realisations:false, equipe:false, temoignages:false, services:false, faq:false, documents:false },
+        static_pages_blocks:{ home:[], about:[], contact:[], legal:[] },
+        content:'', instructions:'',
+        seo:{ keywords:'', geo_lat:'', geo_lng:'', localbusiness_type:'LocalBusiness' },
+        analytics:{ provider:'none', require_consent_banner:true },
+    };
+    const fd = new FormData(form);
+    for (const [name, value] of fd.entries()) {
+        if (name.startsWith('pages.')) {
+            const [, page, block] = name.split('.');
+            if (data.static_pages_blocks[page]) data.static_pages_blocks[page].push(block);
+            continue;
+        }
+        const path = name.split('.');
+        let cur = data;
+        while (path.length > 1) { const k = path.shift(); cur = cur[k]; }
+        cur[path[0]] = value;
+    }
+    form.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        const name = cb.name;
+        if (name.startsWith('pages.')) return;
+        if (name.startsWith('modules.')) {
+            data.modules[name.split('.')[1]] = cb.checked;
+        } else if (name === 'analytics.require_consent_banner') {
+            data.analytics.require_consent_banner = cb.checked;
+        }
+    });
+    return data;
+}
+
+function briefToPrompt(b) {
+    const activeModules = Object.entries(b.modules).filter(([_, v]) => v).map(([k]) => k);
+    return `# Scaffolding voila-cms — projet "${b.client.name}"
+
+Tu vas scaffolder un site vitrine voila-cms basé sur le brief ci-dessous.
+
+## Source de vérité
+\`_starter/brief.json\` contient toute la configuration. Lis-le si tu as besoin du détail complet.
+
+## Informations clés
+- **Client** : ${b.client.name} (${b.client.raison_sociale || 'pas de raison sociale'})
+- **Domaine** : ${b.client.domain}
+- **Secteur** : ${b.client.secteur || 'non spécifié'}
+- **Mode** : ${b.mode === 'refonte' ? 'REFONTE (site existant : ' + b.source_url + ')' : 'Nouveau site'}
+
+## Modules à activer
+Édite \`config/modules.php\` pour inclure exactement : ${activeModules.length ? activeModules.join(', ') : '(aucun)'}.
+
+## Charte graphique
+- Couleurs → mets à jour \`tailwind.config.js\` :
+  - primary : ${b.charte.color_primary}
+  - secondary : ${b.charte.color_secondary}
+  - accent : ${b.charte.color_accent}
+- Polices Google Fonts : titre "${b.charte.font_title}", corps "${b.charte.font_body}"
+  → ajoute les \`<link>\` dans \`templates/layouts/base.html.twig\` et update \`fontFamily\` dans Tailwind.
+- Ton éditorial : **${b.charte.tone}**, style visuel : **${b.charte.style}**
+
+## Blocs éditables des pages statiques
+- Accueil : ${b.static_pages_blocks.home.join(', ') || '(tout figé)'}
+- À propos : ${b.static_pages_blocks.about.join(', ') || '(tout figé)'}
+- Contact : ${b.static_pages_blocks.contact.join(', ') || '(tout figé)'}
+- Mentions légales : ${b.static_pages_blocks.legal.join(', ') || '(tout figé)'}
+
+Adapte \`config/pages.php\` : supprime les blocs NON présents dans la liste ci-dessus (les clients ne pourront pas les éditer). Pour les blocs conservés, ok — ils sont déjà configurés par défaut.
+
+## Settings par défaut (seed via SQL direct ou migration d'ajustement)
+- \`site_name\` = "${b.client.name}"
+- \`contact_email\` = "${b.client.contact.email}"
+- \`contact_phone\` = "${b.client.contact.tel}"
+- \`contact_address\` = "${b.client.contact.address}"
+- \`contact_hours\` = "${b.client.hours}"
+- \`social_facebook\` = "${b.client.social.facebook}"
+- \`social_instagram\` = "${b.client.social.instagram}"
+- \`social_linkedin\` = "${b.client.social.linkedin}"
+- \`social_twitter\` = "${b.client.social.twitter}"
+- \`social_youtube\` = "${b.client.social.youtube}"
+- \`seo_keywords\` = "${b.seo.keywords}"
+- \`localbusiness_type\` = "${b.seo.localbusiness_type}"
+- \`localbusiness_geo_lat\` = "${b.seo.geo_lat}"
+- \`localbusiness_geo_lng\` = "${b.seo.geo_lng}"
+- \`analytics_provider\` = "${b.analytics.provider}"
+- \`consent_banner_enabled\` = "${b.analytics.require_consent_banner ? '1' : '0'}"
+
+Applique ces réglages avec : UPDATE settings SET value=? WHERE \`key\`=? — une par ligne.
+
+${b.mode === 'refonte' ? `
+## Mode REFONTE
+1. Scrape ${b.source_url} avec WebFetch (extraction texte + screenshots desktop/mobile).
+2. Stocke les résultats dans \`_inputs/refonte/\`.
+3. Analyse les contenus extraits pour adapter les pages statiques (À propos, Services…).
+4. Détecte le ton éditorial existant pour t'en inspirer.
+` : ''}
+
+## Contenu éditorial
+${b.content ? '```\n' + b.content + '\n```' : '(aucun contenu fourni — génère des textes cohérents avec le secteur et le ton éditorial)'}
+
+## Instructions spéciales
+${b.instructions || '(aucune)'}
+
+## Checklist de scaffolding
+1. ✅ Lire \`brief.json\` et \`_inputs/\` (charte, photos, textes)
+2. Mettre à jour \`config/modules.php\` avec les modules activés
+3. Mettre à jour \`tailwind.config.js\` (couleurs + polices)
+4. Mettre à jour \`templates/layouts/base.html.twig\` (Google Fonts \`<link>\`)
+5. Mettre à jour \`config/pages.php\` (garder uniquement les blocs listés ci-dessus)
+6. Appliquer les settings par défaut en BDD
+7. Adapter les templates front (hero, etc.) au ton/style
+8. \`npm run build\` + \`php scripts/migrate.php\`
+9. Créer un compte admin : \`php scripts/create-admin.php admin@${b.client.domain}\`
+10. Mettre à jour \`PROJECT_MAP.md\` en listant seulement les modules activés
+11. Tester : \`php -S localhost:8000 -t public/\` — /, /a-propos, /contact, chaque page module active
+12. Tout commit puis rapport récapitulatif
+
+Références au besoin :
+- \`_starter/prompts/00-scaffold.md\` (détails scaffolding)
+- \`_starter/prompts/01-refonte.md\` (si mode refonte)
+- \`_starter/prompts/02-module-customization.md\` (personnalisation par module)
+`;
+}
+
+document.getElementById('save-btn').addEventListener('click', async () => {
+    const form = document.getElementById('brief');
+    const data = formToBrief(form);
+    const status = document.getElementById('save-status');
+    try {
+        const resp = await fetch('save.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const json = await resp.json();
+        if (json.ok) {
+            status.className = 'status ok';
+            status.textContent = `✅ brief.json sauvegardé (${json.size} octets)`;
+        } else {
+            status.className = 'status err';
+            status.textContent = `❌ ${json.error || 'erreur'}`;
+        }
+    } catch (e) {
+        status.className = 'status err';
+        status.textContent = `❌ ${e.message}`;
+    }
+    document.getElementById('prompt-output').value = briefToPrompt(data);
+});
+
+document.getElementById('copy-btn').addEventListener('click', async () => {
+    const form = document.getElementById('brief');
+    const prompt = briefToPrompt(formToBrief(form));
+    document.getElementById('prompt-output').value = prompt;
+    try {
+        await navigator.clipboard.writeText(prompt);
+        const status = document.getElementById('save-status');
+        status.className = 'status ok';
+        status.textContent = '📋 Prompt copié dans le presse-papier !';
+    } catch (e) {
+        document.getElementById('prompt-output').select();
+    }
+});
+</script>
+</body>
+</html>
