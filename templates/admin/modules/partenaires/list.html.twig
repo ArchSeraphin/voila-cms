@@ -1,0 +1,42 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}Partenaires — {{ app.name }}{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="font-display text-2xl font-semibold">Partenaires</h1>
+    <a href="/admin/partenaires/new" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium text-sm">+ Nouveau</a>
+</div>
+{% if rows|length == 0 %}
+<div class="rounded-lg bg-white border border-slate-200 p-8 text-center text-slate-500">Aucun partenaire.</div>
+{% else %}
+<div class="rounded-lg bg-white border border-slate-200 overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-slate-50 border-b border-slate-200">
+            <tr>
+                <th class="px-4 py-3 text-left font-medium">Logo</th>
+                <th class="px-4 py-3 text-left font-medium">Nom</th>
+                <th class="px-4 py-3 text-left font-medium">Ordre</th>
+                <th class="px-4 py-3 text-left font-medium">Statut</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rows %}
+            <tr class="border-b border-slate-100 last:border-0">
+                <td class="px-4 py-3">{% if r.logo %}<img src="/{{ r.logo }}" class="h-8 w-auto" alt="">{% endif %}</td>
+                <td class="px-4 py-3 font-medium">{{ r.nom }}</td>
+                <td class="px-4 py-3 text-slate-600">{{ r.ordre }}</td>
+                <td class="px-4 py-3">{% if r.published %}<span class="inline-block px-2 py-0.5 text-xs bg-green-100 text-green-800 rounded">Publié</span>{% else %}<span class="inline-block px-2 py-0.5 text-xs bg-slate-100 text-slate-600 rounded">Caché</span>{% endif %}</td>
+                <td class="px-4 py-3 text-right space-x-3">
+                    <a href="/admin/partenaires/{{ r.id }}/edit" class="text-primary hover:underline">Éditer</a>
+                    <form method="post" action="/admin/partenaires/{{ r.id }}/delete" class="inline" onsubmit="return confirm('Supprimer ?');">
+                        <input type="hidden" name="_csrf" value="{{ csrf() }}">
+                        <button type="submit" class="text-red-600 hover:underline">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{
+  "name": "partenaires",
+  "label": "Partenaires",
+  "admin_path": "/admin/partenaires",
+  "admin_icon": "handshake",
+  "front_path": "/partenaires",
+  "has_detail": false
+}

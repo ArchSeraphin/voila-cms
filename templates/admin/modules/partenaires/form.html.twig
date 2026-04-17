@@ -1,0 +1,44 @@
+{% extends 'layouts/admin.html.twig' %}
+{% block title %}{{ r.id ? 'Éditer' : 'Nouveau' }} partenaire — {{ app.name }}{% endblock %}
+{% block content %}
+<h1 class="font-display text-2xl font-semibold mb-6">{{ r.id ? 'Éditer un partenaire' : 'Nouveau partenaire' }}</h1>
+<form method="post" action="{{ r.id ? '/admin/partenaires/' ~ r.id ~ '/edit' : '/admin/partenaires/new' }}" class="max-w-2xl space-y-4">
+    <input type="hidden" name="_csrf" value="{{ csrf() }}">
+    <div><label class="block text-sm font-medium mb-1">Nom *</label>
+        <input type="text" name="nom" value="{{ r.nom }}" required class="w-full rounded border-slate-300 px-3 py-2"></div>
+    <div><label class="block text-sm font-medium mb-1">URL (site web)</label>
+        <input type="url" name="url" value="{{ r.url }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+    <div><label class="block text-sm font-medium mb-1">Description</label>
+        <textarea name="description" rows="3" class="w-full rounded border-slate-300 px-3 py-2">{{ r.description }}</textarea></div>
+    <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium mb-1">Ordre</label>
+            <input type="number" name="ordre" value="{{ r.ordre|default(0) }}" class="w-full rounded border-slate-300 px-3 py-2"></div>
+        <div class="flex items-end"><label class="flex items-center gap-2 text-sm"><input type="checkbox" name="published" value="1" {% if r.published %}checked{% endif %}> Publié</label></div>
+    </div>
+    <div class="bg-white border border-slate-200 rounded-lg p-4">
+        <h3 class="font-medium mb-2">Logo</h3>
+        <input type="hidden" name="logo" id="logo-input" value="{{ r.logo }}">
+        <div id="logo-preview" class="mb-2 {% if not r.logo %}hidden{% endif %}">{% if r.logo %}<img src="/{{ r.logo }}" class="h-16 w-auto" alt="">{% endif %}</div>
+        <input type="file" accept="image/*" class="block text-sm" onchange="voilaUpload(this,'logo-input','logo-preview','h-16')">
+    </div>
+    <div class="flex gap-2 pt-4">
+        <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700 font-medium">Enregistrer</button>
+        <a href="/admin/partenaires" class="px-4 py-2 bg-white border border-slate-300 rounded hover:bg-slate-50">Annuler</a>
+    </div>
+</form>
+<script>
+function voilaUpload(input, targetId, previewId, sizeClass) {
+    const file = input.files[0]; if (!file) return;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('_csrf', document.querySelector('input[name="_csrf"]').value);
+    fetch('/admin/upload', { method: 'POST', body: fd }).then(r => r.json()).then(data => {
+        if (data.error) { alert('Erreur : ' + data.error); return; }
+        document.getElementById(targetId).value = data.path;
+        const prev = document.getElementById(previewId);
+        prev.innerHTML = '<img src="/' + data.path + '" class="' + sizeClass + ' w-auto" alt="">';
+        prev.classList.remove('hidden');
+    }).catch(e => alert('Upload échoué : ' + e.message));
+}
+</script>
+{% endblock %}

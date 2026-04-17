@@ -25,9 +25,10 @@ class MigratorTest extends TestCase
     {
         $m = new Migrator(DB::conn(), __DIR__ . '/../../database/migrations');
         $applied = $m->run();
-        $this->assertCount(9, $applied, "Should apply 9 migrations fresh");
+        $this->assertCount(10, $applied, "Should apply 10 migrations fresh");
         $this->assertContains('001_create_schema_migrations', $applied);
         $this->assertContains('009_create_actualites', $applied);
+        $this->assertContains('010_create_partenaires', $applied);
 
         $applied2 = $m->run();
         $this->assertSame([], $applied2);
