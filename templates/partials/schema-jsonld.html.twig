@@ -1,0 +1,5 @@
+{% if schemas is defined and schemas|length > 0 %}
+{% for schema in schemas %}
+<script type="application/ld+json">{{ schema|raw }}</script>
+{% endfor %}
+{% endif %}

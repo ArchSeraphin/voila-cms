@@ -1,0 +1,23 @@
+{% set seo = seo|default({}) %}
+<title>{{ seo.title|default(app.name) }}</title>
+{% if seo.description is defined and seo.description %}
+<meta name="description" content="{{ seo.description }}">
+{% endif %}
+{% if seo.canonical is defined and seo.canonical %}
+<link rel="canonical" href="{{ seo.canonical }}">
+{% endif %}
+
+{# Open Graph #}
+<meta property="og:type" content="{{ seo.og.type|default('website') }}">
+<meta property="og:title" content="{{ seo.og.title|default(seo.title|default(app.name)) }}">
+{% if seo.og.description|default('') %}<meta property="og:description" content="{{ seo.og.description }}">{% endif %}
+{% if seo.og.url|default('') %}<meta property="og:url" content="{{ seo.og.url }}">{% endif %}
+{% if seo.og.image|default('') %}<meta property="og:image" content="{{ seo.og.image }}">{% endif %}
+<meta property="og:locale" content="{{ seo.og.locale|default('fr_FR') }}">
+{% if seo.og.site_name|default('') %}<meta property="og:site_name" content="{{ seo.og.site_name }}">{% endif %}
+
+{# Twitter Cards #}
+<meta name="twitter:card" content="{{ seo.twitter.card|default('summary_large_image') }}">
+{% if seo.twitter.title|default('') %}<meta name="twitter:title" content="{{ seo.twitter.title }}">{% endif %}
+{% if seo.twitter.description|default('') %}<meta name="twitter:description" content="{{ seo.twitter.description }}">{% endif %}
+{% if seo.twitter.image|default('') %}<meta name="twitter:image" content="{{ seo.twitter.image }}">{% endif %}
