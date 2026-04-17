@@ -9,6 +9,7 @@ final class FrontController
 {
     private const PER_PAGE = 10;
 
+    /** @param array<string,mixed> $params */
     public function index(Request $req, array $params): Response
     {
         $page = max(1, (int)$req->query('page', 1));
@@ -35,6 +36,7 @@ final class FrontController
         ]));
     }
 
+    /** @param array<string,mixed> $params */
     public function show(Request $req, array $params): Response
     {
         $slug = (string)($params['slug'] ?? '');

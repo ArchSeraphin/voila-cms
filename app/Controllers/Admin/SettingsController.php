@@ -39,6 +39,7 @@ final class SettingsController
     /** Keys saved as '1' when checkbox present in body, '0' otherwise */
     private const CHECKBOX_FIELDS = ['consent_banner_enabled'];
 
+    /** @param array<string,mixed> $params */
     public function show(Request $req, array $params): Response
     {
         $tab = (string)$req->query('tab', 'site');
@@ -54,6 +55,7 @@ final class SettingsController
         return new Response($html);
     }
 
+    /** @param array<string,mixed> $params */
     public function save(Request $req, array $params): Response
     {
         $tab = (string)$req->post('tab', 'site');

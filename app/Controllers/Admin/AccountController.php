@@ -8,6 +8,7 @@ final class AccountController
 {
     private const MIN_PASSWORD_LEN = 12;
 
+    /** @param array<string,mixed> $params */
     public function show(Request $req, array $params): Response
     {
         /** @var View $view */
@@ -16,6 +17,7 @@ final class AccountController
         return new Response($view->render('admin/account.html.twig', ['user' => $user]));
     }
 
+    /** @param array<string,mixed> $params */
     public function save(Request $req, array $params): Response
     {
         $uid = Session::get('_uid');

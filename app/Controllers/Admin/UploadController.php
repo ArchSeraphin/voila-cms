@@ -10,6 +10,7 @@ final class UploadController
 {
     public function __construct(private ImageService $svc) {}
 
+    /** @param array<string,mixed> $params */
     public function handle(Request $req, array $params): Response
     {
         $file = $req->files['file'] ?? null;
@@ -32,6 +33,7 @@ final class UploadController
         ]);
     }
 
+    /** @param array<string,mixed> $data */
     private function json(array $data, int $status = 200): Response
     {
         $body = json_encode($data, JSON_UNESCAPED_UNICODE) ?: '{}';

@@ -8,6 +8,7 @@ final class AdminController
 {
     private const PER_PAGE = 20;
 
+    /** @param array<string,mixed> $params */
     public function index(Request $req, array $params): Response
     {
         $page = max(1, (int)$req->query('page', 1));
@@ -23,6 +24,7 @@ final class AdminController
         ]));
     }
 
+    /** @param array<string,mixed> $params */
     public function new(Request $req, array $params): Response
     {
         /** @var View $view */
@@ -36,6 +38,7 @@ final class AdminController
         return new Response($view->render('admin/modules/actualites/form.html.twig', ['r' => $blank]));
     }
 
+    /** @param array<string,mixed> $params */
     public function create(Request $req, array $params): Response
     {
         $data = $this->formData($req);
@@ -45,6 +48,7 @@ final class AdminController
         return Response::redirect('/admin/actualites');
     }
 
+    /** @param array<string,mixed> $params */
     public function edit(Request $req, array $params): Response
     {
         $id = (int)$params['id'];
@@ -56,6 +60,7 @@ final class AdminController
         return new Response($view->render('admin/modules/actualites/form.html.twig', ['r' => $row]));
     }
 
+    /** @param array<string,mixed> $params */
     public function update(Request $req, array $params): Response
     {
         $id = (int)$params['id'];
@@ -67,6 +72,7 @@ final class AdminController
         return Response::redirect('/admin/actualites');
     }
 
+    /** @param array<string,mixed> $params */
     public function destroy(Request $req, array $params): Response
     {
         $id = (int)$params['id'];

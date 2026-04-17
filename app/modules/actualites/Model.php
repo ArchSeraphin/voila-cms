@@ -12,6 +12,7 @@ final class Model
         'seo_title', 'seo_description',
     ];
 
+    /** @param array<string,mixed> $data */
     public static function insert(array $data): int
     {
         $cols = self::COLUMNS;
@@ -23,6 +24,7 @@ final class Model
         return (int)DB::conn()->lastInsertId();
     }
 
+    /** @param array<string,mixed> $data */
     public static function update(int $id, array $data): void
     {
         $cols = self::COLUMNS;
@@ -38,6 +40,7 @@ final class Model
         DB::conn()->prepare("DELETE FROM actualites WHERE id=?")->execute([$id]);
     }
 
+    /** @return array<string,mixed>|null */
     public static function findById(int $id): ?array
     {
         $stmt = DB::conn()->prepare("SELECT * FROM actualites WHERE id=?");
@@ -46,6 +49,7 @@ final class Model
         return $row === false ? null : $row;
     }
 
+    /** @return array<string,mixed>|null */
     public static function findBySlug(string $slug): ?array
     {
         $stmt = DB::conn()->prepare("SELECT * FROM actualites WHERE slug=?");
@@ -54,6 +58,7 @@ final class Model
         return $row === false ? null : $row;
     }
 
+    /** @return array<string,mixed>|null */
     public static function findPublishedBySlug(string $slug): ?array
     {
         $stmt = DB::conn()->prepare("SELECT * FROM actualites WHERE slug=? AND published=1 AND date_publication <= NOW()");
