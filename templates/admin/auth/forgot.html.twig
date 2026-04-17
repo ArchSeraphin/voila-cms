@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Mot de passe oublié — {{ app.name }}</title>
+    <link rel="stylesheet" href="/assets/css/app.compiled.css">
+</head>
+<body class="min-h-screen bg-slate-50 flex items-center justify-center">
+<div class="w-full max-w-sm bg-white rounded-lg shadow p-8">
+    <h1 class="font-display text-2xl font-semibold mb-6">Mot de passe oublié</h1>
+    {% if sent %}
+    <div class="rounded bg-green-50 border border-green-200 text-green-800 px-3 py-3 text-sm">
+        Si cette adresse existe, un email de réinitialisation vient d'être envoyé.
+        Le lien est valable 30 minutes.
+    </div>
+    {% else %}
+    {% if error %}<div class="mb-4 rounded bg-red-50 text-red-800 px-3 py-2 text-sm">{{ error }}</div>{% endif %}
+    <p class="text-sm text-slate-600 mb-4">Saisissez l'email de votre compte admin. Nous vous enverrons un lien de réinitialisation.</p>
+    <form method="post" action="/admin/password-forgot" class="space-y-4">
+        <input type="hidden" name="_csrf" value="{{ csrf() }}">
+        <div>
+            <label class="block text-sm font-medium mb-1">Email</label>
+            <input type="email" name="email" required autocomplete="email"
+                   class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <button type="submit" class="w-full rounded bg-primary text-white py-2 font-medium hover:bg-blue-700">
+            Envoyer le lien
+        </button>
+    </form>
+    {% endif %}
+    <p class="text-sm text-slate-500 mt-6 text-center">
+        <a href="/admin/login" class="hover:text-primary">← Retour à la connexion</a>
+    </p>
+</div>
+</body>
+</html>

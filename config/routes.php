@@ -25,6 +25,10 @@ return function (Router $r): void {
     $r->get('/admin/login', [$auth, 'showLogin']);
     $r->post('/admin/login', [$auth, 'doLogin']);
     $r->get('/admin/logout', [$auth, 'logout']);
+    $r->get('/admin/password-forgot',  [$auth, 'showForgot']);
+    $r->post('/admin/password-forgot', [$auth, 'doForgot']);
+    $r->get('/admin/password-reset/{token}',  [$auth, 'showReset']);
+    $r->post('/admin/password-reset/{token}', [$auth, 'doReset']);
 
     $dash = new DashboardController();
     $r->get('/admin', [$dash, 'index']);

@@ -11,6 +11,8 @@ final class AuthAdmin
         if (!str_starts_with($req->path, '/admin')) return $next($req);
         // Allow login + logout endpoints without auth
         if (in_array($req->path, ['/admin/login', '/admin/logout'], true)) return $next($req);
+        if ($req->path === '/admin/password-forgot') return $next($req);
+        if (str_starts_with($req->path, '/admin/password-reset/')) return $next($req);
         $auth = new Auth(DB::conn());
         if (!$auth->check()) return Response::redirect('/admin/login');
         return $next($req);

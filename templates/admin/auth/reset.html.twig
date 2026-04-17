@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Nouveau mot de passe — {{ app.name }}</title>
+    <link rel="stylesheet" href="/assets/css/app.compiled.css">
+</head>
+<body class="min-h-screen bg-slate-50 flex items-center justify-center">
+<div class="w-full max-w-sm bg-white rounded-lg shadow p-8">
+    <h1 class="font-display text-2xl font-semibold mb-6">Nouveau mot de passe</h1>
+    {% if error %}<div class="mb-4 rounded bg-red-50 text-red-800 px-3 py-2 text-sm">{{ error }}</div>{% endif %}
+    <form method="post" action="/admin/password-reset/{{ token }}" class="space-y-4">
+        <input type="hidden" name="_csrf" value="{{ csrf() }}">
+        <div>
+            <label class="block text-sm font-medium mb-1">Nouveau mot de passe (min. 12 caractères)</label>
+            <input type="password" name="new_password" required minlength="12" autocomplete="new-password"
+                   class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <div>
+            <label class="block text-sm font-medium mb-1">Confirmation</label>
+            <input type="password" name="new_password_confirm" required minlength="12" autocomplete="new-password"
+                   class="w-full rounded border-slate-300 px-3 py-2">
+        </div>
+        <button type="submit" class="w-full rounded bg-primary text-white py-2 font-medium hover:bg-blue-700">
+            Changer mon mot de passe
+        </button>
+    </form>
+</div>
+</body>
+</html>
