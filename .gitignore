@@ -1,0 +1,16 @@
+/vendor/
+/node_modules/
+.env
+.env.local
+.env.*.local
+/storage/cache/*
+/storage/logs/*
+/storage/sessions/*
+!/storage/cache/.gitkeep
+!/storage/logs/.gitkeep
+!/storage/sessions/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep
+/public/assets/css/app.compiled.css
+.phpunit.result.cache
+.DS_Store
