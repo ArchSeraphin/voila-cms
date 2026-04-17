@@ -1,0 +1,11 @@
+# Harden
+Options -Indexes
+<Files ~ "^\.">
+    Require all denied
+</Files>
+
+# Route everything to index.php
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
