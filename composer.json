@@ -7,6 +7,11 @@
         "ext-pdo": "*",
         "ext-mbstring": "*",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "intervention/image": "^2.7",
+        "league/flysystem": "^3.0",
+        "league/flysystem-local": "^3.0",
+        "league/glide": "^2.3",
         "twig/twig": "^3.8",
         "vlucas/phpdotenv": "^5.6"
     },
