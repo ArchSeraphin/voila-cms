@@ -168,10 +168,82 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 | Helper Paginator (math offset/limit) | `app/Core/Paginator.php` |
 | Usage dans un listing | Instancier `new Paginator($total, $perPage, $page)` puis lire `.offset`, `.lastPage`, `.hasPrev/hasNext` dans le template |
 
+### FileService (uploads PDF)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Changer limite taille PDF | `config/uploads.php` (`max_size_bytes`) |
+| Logique validation PDF (magic bytes) | `app/Services/FileService.php` |
+| Routing image vs PDF | `app/Controllers/Admin/UploadController.php` (dispatch par MIME) |
+
+### Module Partenaires
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/010_create_partenaires.sql` |
+| Modèle | `app/modules/partenaires/Model.php` |
+| Admin CRUD | `app/modules/partenaires/AdminController.php` |
+| Front (grille logos) | `app/modules/partenaires/FrontController.php` + `templates/front/partenaires/list.html.twig` |
+| Templates admin | `templates/admin/modules/partenaires/{list,form}.html.twig` |
+
+### Module Équipe
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/011_create_equipe.sql` |
+| Modèle + Admin + Front | `app/modules/equipe/{Model,AdminController,FrontController}.php` |
+| Templates | `templates/admin/modules/equipe/` + `templates/front/equipe/list.html.twig` |
+
+### Module Témoignages
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/012_create_temoignages.sql` |
+| Modèle + Admin + Front | `app/modules/temoignages/{Model,AdminController,FrontController}.php` |
+| Templates (avec étoiles) | `templates/admin/modules/temoignages/` + `templates/front/temoignages/list.html.twig` |
+
+### Module FAQ (avec FAQPage JSON-LD)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/013_create_faq.sql` |
+| Modèle + Admin + Front | `app/modules/faq/{Model,AdminController,FrontController}.php` |
+| Templates (accordion `<details>`) | `templates/admin/modules/faq/` + `templates/front/faq/list.html.twig` |
+| JSON-LD FAQPage | Généré par `FrontController` via `SchemaBuilder::faq()` |
+
+### Module Documents (PDF)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/014_create_documents.sql` |
+| Modèle + Admin + Front | `app/modules/documents/{Model,AdminController,FrontController}.php` |
+| Templates (upload PDF, liste téléchargement) | `templates/admin/modules/documents/` + `templates/front/documents/list.html.twig` |
+| Upload PDF | Routé par `UploadController` vers `FileService` selon MIME |
+
+### Module Services (avec Service JSON-LD)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/015_create_services.sql` |
+| Modèle + Admin + Front | `app/modules/services/{Model,AdminController,FrontController}.php` |
+| Admin (slug + SEO + TinyMCE) | Pattern Actualités, voir `AdminController.php` |
+| Front (liste + détail) | `templates/front/services/{list,single}.html.twig` |
+| JSON-LD Service | `SchemaBuilder::service()` appelé par `FrontController::show()` |
+
+### Module Réalisations (avec gallery + CreativeWork JSON-LD)
+
+| Je veux modifier… | Fichier(s) |
+|---|---|
+| Schéma BDD | `database/migrations/016_create_realisations.sql` (gallery_json JSON) |
+| Modèle | `app/modules/realisations/Model.php` (avec `listCategories()`) |
+| Admin CRUD + gallery | `app/modules/realisations/AdminController.php` + `templates/admin/modules/realisations/form.html.twig` (avec `voilaGalleryUpload` JS multi-fichiers) |
+| Front (liste + filtre catégorie + détail + gallery) | `app/modules/realisations/FrontController.php` + `templates/front/realisations/{list,single}.html.twig` |
+| JSON-LD CreativeWork | `SchemaBuilder::creativeWork()` appelé par `FrontController::show()` |
+
 ## Sections à compléter (plans futurs)
 
-- [Plan 04] Modules Partenaires, Réalisations, Équipe, Témoignages, Services, FAQ, Documents
-- [Plan 05] Outillage brief & scaffolding
+- [Plan 05] Outillage brief & scaffolding (brief.html, save.php, prompts, PROJECT_MAP generator)
+- [Plan 06] Maintenance & Hardening (upgrade Glide/Intervention, 2FA, reset password email, Security tab)
 
 ## Commandes utiles
 
