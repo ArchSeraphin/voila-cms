@@ -40,7 +40,14 @@ final class Router
     /** @return array<string,string>|null */
     private function match(string $pattern, string $path): ?array
     {
-        $regex = preg_replace('#\{([a-zA-Z_][a-zA-Z0-9_]*)\}#', '(?P<$1>[^/]+)', $pattern);
+        // Support {param} (single segment) and {param:path} (multi-segment)
+        $regex = preg_replace_callback(
+            '#\{([a-zA-Z_][a-zA-Z0-9_]*)(:path)?\}#',
+            fn($m) => isset($m[2]) && $m[2] === ':path'
+                ? '(?P<' . $m[1] . '>.+)'
+                : '(?P<' . $m[1] . '>[^/]+)',
+            $pattern
+        );
         if (!preg_match("#^{$regex}$#", $path, $m)) return null;
         $params = [];
         foreach ($m as $k => $v) if (is_string($k)) $params[$k] = $v;

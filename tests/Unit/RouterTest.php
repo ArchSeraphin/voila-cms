@@ -47,4 +47,12 @@ class RouterTest extends TestCase
         $this->assertSame('custom-404', $resp->body);
         $this->assertSame(404, $resp->status);
     }
+
+    public function test_path_param_matches_multiple_segments(): void
+    {
+        $r = new Router();
+        $r->get('/media/{path:path}', fn(Request $req, array $params) => new Response('media:' . $params['path']));
+        $resp = $r->dispatch(new Request('GET', '/media/2026/04/xyz.jpg'));
+        $this->assertSame('media:2026/04/xyz.jpg', $resp->body);
+    }
 }

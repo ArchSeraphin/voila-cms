@@ -19,9 +19,14 @@ final class View
             'autoescape' => 'html',
             'strict_variables' => false,
         ]);
-        // Lazy flash reader — reads from session at render time (not at wiring time)
         $this->twig->addFunction(new TwigFunction('flash', fn(string $k) => Session::flash($k)));
         $this->twig->addFunction(new TwigFunction('csrf', fn() => Csrf::token()));
+        $this->twig->addFunction(new TwigFunction('url', fn(string $path = '') => self::absoluteUrl($path)));
+        $this->twig->addFunction(new TwigFunction(
+            'img',
+            fn(string $path, string $preset = 'card', ?string $alt = null) => self::renderImg($path, $preset, $alt),
+            ['is_safe' => ['html']],
+        ));
     }
 
     /** @param array<string,mixed> $context */
@@ -31,4 +36,33 @@ final class View
     }
 
     public function env(): Environment { return $this->twig; }
+
+    private static function absoluteUrl(string $path): string
+    {
+        $base = rtrim((string)Config::get('APP_URL', ''), '/');
+        return $base . '/' . ltrim($path, '/');
+    }
+
+    private static function renderImg(string $path, string $preset, ?string $alt): string
+    {
+        $cfg = require base_path('config/images.php');
+        $presetCfg = $cfg['presets'][$preset] ?? $cfg['presets']['card'];
+        $widths = $cfg['srcset_widths'] ?? [640, 960, 1280];
+        $altAttr = $alt !== null ? ' alt="' . htmlspecialchars($alt, ENT_QUOTES|ENT_HTML5, 'UTF-8') . '"' : ' alt=""';
+        $mainW = (int)$presetCfg['w'];
+        $mainFit = (string)($presetCfg['fit'] ?? 'max');
+        $src = \App\Services\Glide::sign($path, ['w' => $mainW, 'fit' => $mainFit, 'fm' => 'webp']);
+        $srcset = [];
+        foreach ($widths as $w) {
+            $srcset[] = \App\Services\Glide::sign($path, ['w' => $w, 'fit' => $mainFit, 'fm' => 'webp']) . ' ' . $w . 'w';
+        }
+        $srcsetAttr = htmlspecialchars(implode(', ', $srcset), ENT_QUOTES|ENT_HTML5, 'UTF-8');
+        return sprintf(
+            '<img src="%s" srcset="%s" sizes="(max-width: 768px) 100vw, %dpx" loading="lazy" decoding="async"%s>',
+            htmlspecialchars($src, ENT_QUOTES|ENT_HTML5, 'UTF-8'),
+            $srcsetAttr,
+            $mainW,
+            $altAttr,
+        );
+    }
 }
