@@ -8,4 +8,5 @@ return [
     'faq',
     'documents',
     'services',
+    'realisations',
 ];

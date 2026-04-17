@@ -1,0 +1,8 @@
+{
+  "name": "realisations",
+  "label": "Réalisations",
+  "admin_path": "/admin/realisations",
+  "admin_icon": "briefcase",
+  "front_path": "/realisations",
+  "has_detail": true
+}
