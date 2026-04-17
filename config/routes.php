@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use App\Core\Router;
 use App\Controllers\Front\{HomeController, MediaController, CookiesController};
-use App\Controllers\Admin\{AuthController, DashboardController};
+use App\Controllers\Admin\{AuthController, DashboardController, SettingsController};
 
 return function (Router $r): void {
     $home = new HomeController();
@@ -28,6 +28,10 @@ return function (Router $r): void {
 
     $dash = new DashboardController();
     $r->get('/admin', [$dash, 'index']);
+
+    $settings = new SettingsController();
+    $r->get('/admin/settings',  [$settings, 'show']);
+    $r->post('/admin/settings', [$settings, 'save']);
 
     $r->setFallback([$home, 'notFound']);
 };

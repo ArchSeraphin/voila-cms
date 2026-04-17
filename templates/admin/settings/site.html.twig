@@ -1,0 +1,31 @@
+{% extends 'admin/settings/layout.html.twig' %}
+{% block tab_content %}
+<div class="space-y-4">
+    <div>
+        <label class="block text-sm font-medium mb-1">Nom du site</label>
+        <input type="text" name="site_name" value="{{ s.site_name|default('') }}" required
+               class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Slogan</label>
+        <input type="text" name="site_tagline" value="{{ s.site_tagline|default('') }}"
+               class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Description</label>
+        <textarea name="site_description" rows="3"
+                  class="w-full rounded border-slate-300 px-3 py-2">{{ s.site_description|default('') }}</textarea>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Chemin du logo (uploads/…)</label>
+        <input type="text" name="site_logo_path" value="{{ s.site_logo_path|default('') }}"
+               class="w-full rounded border-slate-300 px-3 py-2">
+        <p class="text-xs text-slate-500 mt-1">Exemple : <code>uploads/2026/04/xxxxx.png</code></p>
+    </div>
+    <div>
+        <label class="block text-sm font-medium mb-1">Chemin du favicon</label>
+        <input type="text" name="site_favicon_path" value="{{ s.site_favicon_path|default('') }}"
+               class="w-full rounded border-slate-300 px-3 py-2">
+    </div>
+</div>
+{% endblock %}
