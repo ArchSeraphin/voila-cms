@@ -139,6 +139,24 @@ final class SchemaBuilder
         return self::encode($out);
     }
 
+    /** @param array{name:string,url:string,description?:string,image?:string,datePublished?:string,creator?:string} $data */
+    public static function creativeWork(array $data): string
+    {
+        $out = [
+            '@context' => 'https://schema.org',
+            '@type'    => 'CreativeWork',
+            'name'     => $data['name'],
+            'url'      => $data['url'],
+        ];
+        if (!empty($data['description']))   $out['description']   = $data['description'];
+        if (!empty($data['image']))         $out['image']         = $data['image'];
+        if (!empty($data['datePublished'])) $out['datePublished'] = $data['datePublished'];
+        if (!empty($data['creator'])) {
+            $out['creator'] = ['@type' => 'Organization', 'name' => $data['creator']];
+        }
+        return self::encode($out);
+    }
+
     /** @param array<string,mixed> $data */
     private static function encode(array $data): string
     {

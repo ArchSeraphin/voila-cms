@@ -1,0 +1,31 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<section class="mx-auto max-w-6xl px-4 py-16">
+    <h1 class="font-display text-4xl font-bold mb-6">Nos réalisations</h1>
+    {% if categories|length > 0 %}
+    <div class="flex flex-wrap gap-2 mb-10 text-sm">
+        <a href="/realisations" class="px-3 py-1.5 rounded-full border {% if not current_category %}bg-primary text-white border-primary{% else %}border-slate-300 hover:bg-slate-50{% endif %}">Tout</a>
+        {% for c in categories %}
+        <a href="/realisations?categorie={{ c|url_encode }}" class="px-3 py-1.5 rounded-full border {% if current_category == c %}bg-primary text-white border-primary{% else %}border-slate-300 hover:bg-slate-50{% endif %}">{{ c }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if rows|length == 0 %}
+    <p class="text-slate-500">Aucune réalisation pour l'instant.</p>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for r in rows %}
+        <a href="/realisations/{{ r.slug }}" class="block group">
+            {% if r.cover_image %}
+            <img src="/{{ r.cover_image }}" alt="{{ r.titre }}" class="w-full h-56 object-cover rounded mb-3 group-hover:opacity-90 transition">
+            {% else %}
+            <div class="w-full h-56 bg-slate-200 rounded mb-3"></div>
+            {% endif %}
+            <h2 class="font-display text-xl font-semibold group-hover:text-primary">{{ r.titre }}</h2>
+            {% if r.client %}<p class="text-sm text-slate-500">{{ r.client }}</p>{% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

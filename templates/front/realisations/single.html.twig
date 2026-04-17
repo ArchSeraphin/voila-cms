@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html.twig' %}
+{% block content %}
+<article class="mx-auto max-w-4xl px-4 py-16">
+    <nav class="text-sm text-slate-500 mb-4"><a href="/realisations" class="hover:text-primary">← Toutes les réalisations</a></nav>
+    <h1 class="font-display text-4xl font-bold mb-2">{{ row.titre }}</h1>
+    {% if row.client or row.date_realisation %}
+    <div class="text-slate-500 mb-8">
+        {% if row.client %}{{ row.client }}{% endif %}
+        {% if row.date_realisation %}{% if row.client %} · {% endif %}{{ row.date_realisation|date('Y') }}{% endif %}
+    </div>
+    {% endif %}
+    {% if row.cover_image %}<img src="/{{ row.cover_image }}" alt="{{ row.titre }}" class="w-full h-auto rounded mb-8">{% endif %}
+    {% if row.description %}<div class="prose prose-slate max-w-none mb-10">{{ row.description|raw }}</div>{% endif %}
+    {% if gallery|length > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for p in gallery %}<img src="/{{ p }}" alt="{{ row.titre }}" class="w-full h-auto rounded">{% endfor %}
+    </div>
+    {% endif %}
+</article>
+{% endblock %}

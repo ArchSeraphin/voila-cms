@@ -12,4 +12,8 @@ return function (Router $r): void {
     $r->get('/admin/realisations/{id}/edit',    [$admin, 'edit']);
     $r->post('/admin/realisations/{id}/edit',   [$admin, 'update']);
     $r->post('/admin/realisations/{id}/delete', [$admin, 'destroy']);
+
+    $front = new \App\Modules\Realisations\FrontController();
+    $r->get('/realisations',          [$front, 'index']);
+    $r->get('/realisations/{slug}',   [$front, 'show']);
 };

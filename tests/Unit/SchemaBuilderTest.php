@@ -82,4 +82,17 @@ class SchemaBuilderTest extends TestCase
         $this->assertSame('Plomberie', $data['name']);
         $this->assertSame('Acme', $data['provider']['name']);
     }
+
+    public function test_creative_work(): void
+    {
+        $json = SchemaBuilder::creativeWork([
+            'name' => 'Projet X', 'url' => 'https://x.test/r/x',
+            'description' => 'D', 'image' => 'https://x.test/i.jpg',
+            'datePublished' => '2026-04-01', 'creator' => 'Acme',
+        ]);
+        $data = json_decode($json, true);
+        $this->assertSame('CreativeWork', $data['@type']);
+        $this->assertSame('Projet X', $data['name']);
+        $this->assertSame('Acme', $data['creator']['name']);
+    }
 }
