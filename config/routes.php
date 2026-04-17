@@ -37,11 +37,15 @@ return function (Router $r): void {
     $r->get('/admin/account',  [$account, 'show']);
     $r->post('/admin/account', [$account, 'save']);
 
-    $uploadSvc = new \App\Services\ImageService(
+    $imageSvc = new \App\Services\ImageService(
         base_path('public/uploads'),
         require base_path('config/images.php'),
     );
-    $upload = new \App\Controllers\Admin\UploadController($uploadSvc);
+    $pdfSvc = new \App\Services\FileService(
+        base_path('public/uploads'),
+        require base_path('config/uploads.php'),
+    );
+    $upload = new \App\Controllers\Admin\UploadController($imageSvc, $pdfSvc);
     $r->post('/admin/upload', [$upload, 'handle']);
 
     $r->setFallback([$home, 'notFound']);

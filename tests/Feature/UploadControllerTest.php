@@ -16,9 +16,11 @@ class UploadControllerTest extends TestCase
     {
         $this->uploads = sys_get_temp_dir() . '/voila-upl-' . uniqid();
         mkdir($this->uploads, 0775, true);
-        $cfg = require __DIR__ . '/../../config/images.php';
-        $svc = new ImageService($this->uploads, $cfg);
-        $this->ctrl = new UploadController($svc);
+        $imgCfg = require __DIR__ . '/../../config/images.php';
+        $pdfCfg = require __DIR__ . '/../../config/uploads.php';
+        $imgSvc = new ImageService($this->uploads, $imgCfg);
+        $pdfSvc = new \App\Services\FileService($this->uploads, $pdfCfg);
+        $this->ctrl = new UploadController($imgSvc, $pdfSvc);
         Session::start(['testing' => true]); Session::clear();
         Session::set('_uid', 1);
     }
