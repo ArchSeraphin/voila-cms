@@ -182,6 +182,7 @@ mon-client.fr/
 ├── build.sh
 ├── deploy.sh                   # hook post-deploy Plesk
 ├── CLAUDE.md
+├── PROJECT_MAP.md              # index des fichiers à modifier par intention
 └── README.md
 ```
 
@@ -486,17 +487,55 @@ public/uploads/*
 Fichier à la racine, lu par Claude Code à chaque session. Contient :
 
 - **Contexte** : "Projet basé sur voila-cms — site vitrine pour {client}"
+- **⚠️ Directive en tête** : *"Avant toute modification, consulte `PROJECT_MAP.md` pour repérer les fichiers concernés."*
 - **Source de vérité** : référence à `_starter/brief.json`
 - **Prompts modulaires** : référence à `_starter/prompts/`
 - **Convention de code** : PHP 8.2 strict types, PSR-12, pas de framework, structure existante à respecter
 - **Interdictions explicites** : ne pas créer de fichiers en racine, ne pas installer de deps Composer sans validation, jamais commit `.env`, ne pas modifier `vendor/`
-- **Workflow** : scaffold depuis `brief.json` + `_inputs/`, demander confirmation avant suppression, lancer migrations après création de tables
+- **Workflow** : scaffold depuis `brief.json` + `_inputs/`, demander confirmation avant suppression, lancer migrations après création de tables, **mettre à jour `PROJECT_MAP.md` si on ajoute/supprime un module ou une page**
 - **Test local** : commandes `php -S localhost:8000 -t public/` + `npm run dev`
 - **Qualité** : respecter charte (couleurs/polices de `brief.json`), alt text sur toutes les images, SEO meta sur toutes les pages
 
 ---
 
-## 13. Périmètre hors V1
+## 13. `PROJECT_MAP.md` — index d'orientation rapide pour Claude
+
+### 13.1 Rôle
+
+Fichier court (< 200 lignes) à la racine du projet, généré par Claude au scaffolding et maintenu à jour. Il répond à la question *"quand on veut modifier X, on touche quoi ?"* et permet à Claude de trouver le bon fichier en 1 lecture au lieu de 3-4 explorations — utile à chaque demande de modification post-livraison.
+
+### 13.2 Contenu (sections fixes)
+
+- **Stack** (rappel 1 ligne)
+- **Tâches fréquentes → fichiers** : tables de correspondance par domaine
+  - Front public (header, footer, chaque page statique, 404, bannière cookies)
+  - Design / charte (Tailwind, polices, composants, CSS custom)
+  - Modules dynamiques (pour chaque module activé : front-list, front-single, admin)
+  - Backoffice (layout, dashboard, settings, login, styles admin)
+  - SEO (service, SchemaBuilder, sitemap, robots)
+  - Analytics (fournisseur, tags custom)
+  - Images (presets, helper)
+  - Sécurité (headers, rate limit, sessions)
+  - Base de données (migrations, modèles, seeds)
+  - Emails (templates, config SMTP)
+  - Config & déploiement (env, routes, deploy.sh, modules activés)
+- **Modules activés** sur ce projet (généré depuis `brief.json`)
+- **Pages statiques — blocs éditables** (généré depuis `brief.json`)
+- **Commandes utiles** (dev local, build, migrations, audit)
+
+### 13.3 Génération et maintenance
+
+- **Au scaffolding** : Claude génère `PROJECT_MAP.md` adapté au projet en lisant `brief.json` (n'inclut que les modules réellement activés, liste les blocs statiques choisis)
+- **À chaque modification structurelle** (ajout/retrait d'un module, nouvelle page, nouveau service) : Claude met à jour le fichier dans le même commit — imposé par `CLAUDE.md`
+- **Versionné dans git** : toujours synchrone avec le code
+
+### 13.4 Référencement
+
+Le `CLAUDE.md` du projet contient en tête la directive : *"Avant toute modification, consulte `PROJECT_MAP.md` pour repérer les fichiers concernés."*
+
+---
+
+## 14. Périmètre hors V1
 
 Explicitement **non inclus** dans cette première version (à documenter comme extensions futures possibles) :
 
@@ -512,7 +551,7 @@ Explicitement **non inclus** dans cette première version (à documenter comme e
 
 ---
 
-## 14. Critères de succès
+## 15. Critères de succès
 
 La V1 est considérée livrée quand :
 
