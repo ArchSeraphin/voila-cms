@@ -20,8 +20,10 @@ cd mon-client
 # 2. Setup auto (env, DB, composer, npm, migrations, build)
 ./scripts/init.sh
 
-# 3. Remplir le brief → copier le prompt → coller dans Claude Code
-open https://mon-client.test/_starter/brief.html
+# 3. Remplir le brief (lance un serveur dédié + ouvre le formulaire)
+./scripts/brief.sh
+# → http://localhost:9000/brief.html
+# Sauvegarde le JSON, copie le prompt, Ctrl+C pour stopper
 
 # 4. Créer un admin
 php scripts/create-admin.php toi@mon-client.fr
@@ -31,7 +33,7 @@ C'est tout.
 
 - Front : `https://mon-client.test`
 - Admin : `https://mon-client.test/admin/login`
-- Brief : `https://mon-client.test/_starter/brief.html`
+- Brief : `./scripts/brief.sh` → `http://localhost:9000/brief.html`
 
 ## Ce que fait `init.sh`
 

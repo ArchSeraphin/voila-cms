@@ -300,7 +300,8 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 | Je veux… | Fichier(s) |
 |---|---|
 | Formulaire brief | `_starter/brief.html` |
-| Endpoint sauvegarde | `_starter/save.php` (lancer avec `php -S localhost:9000 -t _starter/`) |
+| Lancer le serveur brief | `./scripts/brief.sh` (port 9000 par défaut, override avec `BRIEF_PORT=9001`) |
+| Endpoint sauvegarde | `_starter/save.php` |
 | Schéma JSON | `_starter/brief.json.example` |
 | Prompts scaffolding | `_starter/prompts/00-scaffold.md`, `01-refonte.md`, `02-module-customization.md` |
 

@@ -100,7 +100,7 @@ cat <<EOF
 
   Front   : ${APP_URL}
   Admin   : ${APP_URL}/admin/login
-  Brief   : ${APP_URL}/_starter/brief.html
+  Brief   : ./scripts/brief.sh  (http://localhost:9000/brief.html)
 
   Créer un compte admin :
     php scripts/create-admin.php toi@example.com
