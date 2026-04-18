@@ -308,9 +308,17 @@ PHP 8.2 • MySQL • Twig • Tailwind • Alpine (à venir)
 
 - [Plan 06] Maintenance & Hardening (upgrade Glide/Intervention, 2FA TOTP, HEAD→GET router, CSRF rate-limit, Slug transliterator, admin image Glide preview)
 
+### Setup local (Herd + MAMP)
+
+| Je veux… | Fichier(s) |
+|---|---|
+| Setup complet d'un nouveau projet | `./scripts/init.sh` (env + DB + composer + npm + migrations + build) |
+| Modifier les valeurs par défaut DB locale | `scripts/init.sh` (vars `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`) |
+
 ## Commandes utiles
 
-- Serveur dev : `composer serve` (ou `php -S localhost:8000 -t public/`)
+- Setup initial : `./scripts/init.sh`
+- Serveur dev : Herd auto (`https://<dossier>.test`) — ou `composer serve` en fallback
 - Tailwind watch : `npm run dev`
 - Tailwind build prod : `npm run build`
 - Migrations : `php scripts/migrate.php`

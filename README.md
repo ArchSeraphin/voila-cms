@@ -1,48 +1,60 @@
 # voila-cms
 
-Starter kit PHP pour sites vitrine (TPE/PME). Clone, remplis le brief, laisse Claude Code scaffolder le site, déploie sur Plesk.
+Starter kit PHP pour sites vitrine (TPE/PME). Clone dans Herd, remplis le brief, lance `init.sh`, Claude Code scaffolde. Déploie sur Plesk.
 
 ## Prérequis
-- PHP 8.2+ avec extensions: pdo_mysql, mbstring, fileinfo
-- MySQL 8 / MariaDB 10.6+
+
+- **[Herd](https://herd.laravel.com/)** (PHP 8.2+ + `.test` auto-servis)
+- **[MAMP](https://www.mamp.info/)** (MySQL sur port 8889) — **démarre-le avant tout**
 - Composer
-- Node 20+ (dev local pour Tailwind)
+- Node 20+
 
-## Démarrage rapide (nouveau projet)
-
-### Option A — Avec le brief HTML (recommandé)
+## Démarrage rapide
 
 ```bash
-git clone <this-repo> mon-client.fr
-cd mon-client.fr
+# 1. Cloner dans Herd → auto-servi sur https://<nom-projet>.test
+cd ~/Herd
+git clone <voila-cms-repo> mon-client
+cd mon-client
 
-# Lance le serveur du brief (port 9000)
-php -S localhost:9000 -t _starter/ &
-# Ouvre http://localhost:9000/brief.html, remplis les 9 sections,
-# clique "💾 Sauvegarder brief.json" puis "📋 Copier le prompt Claude Code"
-# Stoppe le serveur brief : kill %1
+# 2. Setup auto (env, DB, composer, npm, migrations, build)
+./scripts/init.sh
 
-# Setup technique
-cp .env.example .env
-# Éditer .env (DB credentials + SMTP)
-composer install
-npm install
-mysql -u root -e "CREATE DATABASE voila_dev CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-php scripts/migrate.php
+# 3. Remplir le brief → copier le prompt → coller dans Claude Code
+open https://mon-client.test/_starter/brief.html
 
-# Colle le prompt dans Claude Code → Claude scaffolde le site selon le brief
-# Puis :
-php scripts/create-admin.php admin@mon-client.fr
-npm run build
-php -S localhost:8000 -t public/
+# 4. Créer un admin
+php scripts/create-admin.php toi@mon-client.fr
 ```
 
-### Option B — Manuel (sans brief)
+C'est tout.
 
-Même chose mais édite `config/modules.php`, `config/pages.php`, `tailwind.config.js` et les settings (via MySQL ou via /admin/settings une fois admin connecté) à la main.
+- Front : `https://mon-client.test`
+- Admin : `https://mon-client.test/admin/login`
+- Brief : `https://mon-client.test/_starter/brief.html`
 
-- Front : http://localhost:8000
-- Admin : http://localhost:8000/admin/login
+## Ce que fait `init.sh`
+
+1. Vérifie Herd/MAMP/composer/npm
+2. Génère `.env` avec :
+   - `APP_URL=https://<dossier>.test`
+   - DB MAMP (`127.0.0.1:8889` / `root` / `root`)
+   - `IMAGE_URL_SECRET` aléatoire
+   - `MAIL_TRANSPORT=null` (pas de SMTP en local)
+3. `composer install` + `npm install`
+4. Crée la base `<dossier>` + lance les migrations
+5. `npm run build` (Tailwind prod)
+
+Relançable à volonté — skip ce qui existe déjà.
+
+## Assets client (optionnel avant scaffolding)
+
+```bash
+mkdir -p _inputs/{charte,photos,textes}
+# y déposer logo.svg, favicon.png, photos HD, contenus.md
+```
+
+Claude lit `_inputs/` pour personnaliser le site.
 
 ## Tests
 
@@ -52,7 +64,7 @@ composer test
 
 ## Déploiement Plesk
 
-Voir `deploy.sh`. Connecter le repo dans Plesk, brancher sur `main`, déposer `deploy.sh` comme hook post-deploy, Let's Encrypt auto.
+Voir `deploy.sh`. Connecter le repo dans Plesk, brancher sur `main`, déposer `deploy.sh` comme hook post-deploy, Let's Encrypt auto. Penser à remplir les `MAIL_*` dans le `.env` serveur.
 
 ## Documentation
 
